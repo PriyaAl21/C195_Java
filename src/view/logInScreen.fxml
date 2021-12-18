@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LogInScreen">
+
+      <Pane layoutX="181.0" layoutY="63.0" prefHeight="250.0" prefWidth="350.0" style="-fx-border-color: black; -fx-border-radius: 5;">
+         <children>
+            <Label fx:id="usName" layoutX="35.0" layoutY="71.0" text="Username">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="signIn" layoutX="123.0" layoutY="14.0" prefHeight="30.0" prefWidth="120.0" text="Sign-In">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="pwd" layoutX="35.0" layoutY="120.0" text="Password">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="userName" layoutX="170.0" layoutY="67.0" onAction="#onUserName" />
+            <TextField fx:id="password" layoutX="170.0" layoutY="116.0" onAction="#onPassword" />
+            <Button fx:id="logInButton" layoutX="123.0" layoutY="178.0" mnemonicParsing="false" onAction="#onLogIn" prefHeight="30.0" prefWidth="140.0" text="Log In">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+      <Label fx:id="zoneId" layoutX="235.0" layoutY="328.0" prefHeight="30.0" prefWidth="242.0" />
+
+
+</AnchorPane>

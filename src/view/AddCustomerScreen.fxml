@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.AddCustomerScreen"
+            prefHeight="400.0" prefWidth="600.0">
+    <children>
+        <Pane layoutX="8.0" layoutY="14.0" prefHeight="441.0" prefWidth="783.0">
+            <children>
+                <Label layoutX="55.0" layoutY="14.0" prefHeight="17.0" prefWidth="126.0" text="Add Customer">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Label>
+                <Label layoutX="81.0" layoutY="111.0" prefHeight="17.0" prefWidth="103.0" text="Customer Name">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Label layoutX="87.0" layoutY="162.0" prefHeight="17.0" prefWidth="62.0" text="Address">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Label layoutX="87.0" layoutY="221.0" text="Phone number">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Label layoutX="87.0" layoutY="274.0" text="Postal Code">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="customerNameField"  layoutX="246.0" layoutY="109.0" />
+                <TextField fx:id="streetNameField"  layoutX="320.0" layoutY="160.0" prefHeight="25.0" prefWidth="116.0" />
+                <TextField fx:id="phoneField"  layoutX="246.0" layoutY="219.0" />
+                <TextField fx:id="postalCodeField"  layoutX="246.0" layoutY="272.0" />
+                <Label layoutX="246.0" layoutY="164.0" text="Apt#,Street" />
+                <ComboBox fx:id="chooseCountry" layoutX="461.0" layoutY="160.0" onAction="#OnChooseCountry" prefHeight="25.0" prefWidth="103.0" promptText="Country" />
+                <ComboBox fx:id="chooseDivision" layoutX="595.0" layoutY="160.0" onAction="#OnChooseDivision" prefHeight="25.0" prefWidth="126.0" promptText="State/Province" />
+                <Label layoutX="87.0" layoutY="61.0" text="Customer ID">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <TextField editable="false" layoutX="246.0" layoutY="58.0" promptText="auto ID-generate" />
+                <Button fx:id="addCustomerButton" layoutX="246.0" layoutY="348.0" mnemonicParsing="false" onAction="#OnAddCustomer" prefHeight="25.0" prefWidth="103.0" text="Add Customer" />
+                <Button fx:id="cancelButton" layoutX="435.0" layoutY="348.0" mnemonicParsing="false" onAction="#OnCancel" prefHeight="25.0" prefWidth="103.0" text="Cancel" />
+            </children>
+        </Pane>
+    </children>
+
+</AnchorPane>

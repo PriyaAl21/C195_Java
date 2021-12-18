@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.CustomerScreen"
+            prefHeight="400.0" prefWidth="600.0">
+    <children>
+        <TableView fx:id="customerTable" layoutX="37.0" layoutY="79.0" prefHeight="260.0" prefWidth="732.0">
+            <columns>          <TableColumn fx:id="customerIdCol" prefWidth="100.0" text="Customer_ID" />
+                <TableColumn fx:id="customerNameCol" prefWidth="100.0" text="Customer_Name" />
+                <TableColumn fx:id="addressCol" prefWidth="100.0" text="Address" />
+                <TableColumn fx:id="postalCodeCol" prefWidth="100.0" text="Postal_Code" />
+                <TableColumn fx:id="phoneCol" prefWidth="100.0" text="Phone" />
+                <TableColumn fx:id="createDateCol" prefWidth="125.0" text="Create_Date" />
+                <TableColumn fx:id="createdByCol" prefWidth="100.0" text="Created_By" />
+                <TableColumn fx:id="lastUpdateCol" prefWidth="125.0" text="Last_Update" />
+                <TableColumn fx:id="lastUpdatedByCol" prefWidth="100.0" text="Last_Updated_By" />
+                <TableColumn fx:id="divisionIdCol" prefWidth="100.0" text="Division_ID" />
+            </columns>
+        </TableView>
+        <Label layoutX="329.0" layoutY="25.0" prefHeight="20.0" prefWidth="79.0" style="-fx-font-weight: bold;" text="Customers">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <Button fx:id="addCustomer" layoutX="174.0" layoutY="406.0" mnemonicParsing="false" onAction="#onAddCustomer" prefHeight="26.0" prefWidth="72.0" text="Add" />
+        <Button fx:id="modifyCustomer" layoutX="333.0" layoutY="406.0" mnemonicParsing="false" onAction="#OnModifyCustomer" prefHeight="26.0" prefWidth="72.0" text="Edit" />
+        <Button fx:id="deleteCustomer" layoutX="510.0" layoutY="406.0" mnemonicParsing="false" onAction="#onDeleteCustomer" prefHeight="26.0" prefWidth="72.0" text="Delete" />
+
+    </children>
+
+
+</AnchorPane>

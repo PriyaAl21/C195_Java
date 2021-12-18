@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="436.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AppointmentTypeScreen">
+
+    <children>
+        <TableView fx:id="aptTable" layoutX="90.0" layoutY="78.0" prefHeight="272.0" prefWidth="700.0">
+            <columns>
+                <TableColumn fx:id="aptIdCol" prefWidth="75.0" text="Appt_ID" />
+                <TableColumn fx:id="titleCol" prefWidth="75.0" text="Title" />
+                <TableColumn fx:id="descriptionCol" prefWidth="75.0" text="Description" />
+                <TableColumn fx:id="typeCol" prefWidth="100.0" text="Type" />
+                <TableColumn fx:id="startDateTimeCol" prefWidth="120.0" text="Start date &amp; time" />
+                <TableColumn fx:id="endDateTimeCol" prefWidth="120.0" text="End date &amp; time" />
+                <TableColumn fx:id="customerIDCol" prefWidth="75.0" text="Customer ID" />
+            </columns>
+        </TableView>
+
+        <Button fx:id="close" layoutX="675.0" layoutY="368.0" mnemonicParsing="false" onAction="#OnClose" prefHeight="26.0" prefWidth="62.0" text="Close" />
+      <Label layoutX="367.0" layoutY="26.0" prefHeight="26.0" prefWidth="172.0" text="Appointment Type Report">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="contactCombo" layoutX="218.0" layoutY="369.0" onAction="#OnContactCombo" prefWidth="150.0" promptText="Contacts" />
+
+
+    </children>
+
+
+</AnchorPane>
