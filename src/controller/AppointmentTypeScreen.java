@@ -8,13 +8,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
+import model.DataStorage;
 import utilities.Crud;
 
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
 public class AppointmentTypeScreen extends Crud implements Initializable {
@@ -50,15 +56,52 @@ public class AppointmentTypeScreen extends Crud implements Initializable {
     }
 
     public void OnContactCombo(ActionEvent actionEvent) throws SQLException {
+        ObservableList<Appointment> aptTypes = FXCollections.observableArrayList();
         String contact = (String) contactCombo.getSelectionModel().getSelectedItem();
-        ResultSet rs1 =
+        System.out.println("select appointments.Appointment_ID,  appointments.Title, appointments.Description,\n" +
+                "appointments.Type,appointments.Start,appointments.End,appointments.Customer_ID\n" +
+                "from appointments \n" +
+                "join contacts\n" +" on appointments.Contact_ID = contacts.Contact_ID\n " +
+                "where contacts.Contact_Name = "+ contact+" order by appointments.Appointment_ID");
+        ResultSet rs =
                 Select("select appointments.Appointment_ID,  appointments.Title, appointments.Description,\n" +
                         "appointments.Type,appointments.Start,appointments.End,appointments.Customer_ID\n" +
                         "from appointments \n" +
                         "join contacts\n" +" on appointments.Contact_ID = contacts.Contact_ID\n " +
-                        "where contacts.Contact_Name = "+ contact+"order by appointments.Appointment_ID");
-        while (rs1.next()) {
-            Appointment.populate(rs1);
+                        "where contacts.Contact_Name = "+ '"'+contact+'"'+" order by appointments.Appointment_ID");
+        while (rs.next()) {
+            int aptId = Integer.parseInt(rs.getString("Appointment_ID"));
+            String title = rs.getString("Title");
+            String description = rs.getString("Description");
+            String type = rs.getString("Type");
+
+            LocalDateTime start = rs.getTimestamp("Start").toLocalDateTime();
+            ZonedDateTime ldtZoned = start.atZone(ZoneId.systemDefault());
+            LocalDateTime startDateNTime = ldtZoned.toLocalDateTime();
+
+            LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
+            ZonedDateTime ldtZoned1 = end.atZone(ZoneId.systemDefault());
+            LocalDateTime endDateNTime = ldtZoned1.toLocalDateTime();
+
+            int customerId = (rs.getInt("Customer_ID"));
+
+            Appointment newApt = new Appointment(aptId,title,description,type,startDateNTime,endDateNTime,customerId);
+            aptTypes.add(newApt);
         }
+
+       for (Appointment apt:aptTypes){
+           System.out.println(apt.getAptId());
+        };
+            aptIdCol.setCellValueFactory(new PropertyValueFactory<>("aptId"));
+            titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+            descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+            typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+            startDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("startDateNTime"));
+            endDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("endDateNTime"));
+            customerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+
+            aptTable.setItems(aptTypes);
+
+
     }
 }

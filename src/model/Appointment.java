@@ -38,6 +38,17 @@ public class Appointment {
         this.userId = userId;
     }
 
+    public Appointment(int aptId, String title, String description, String type, LocalDateTime startDateNTime, LocalDateTime endDateNTime, int customerId) {
+        this.aptId = aptId;
+        this.title = title;
+        this.description = description;
+        this.type = type;
+        this.startDateNTime = startDateNTime;
+        this.endDateNTime = endDateNTime;
+        this.customerId = customerId;
+
+    }
+
     public int getAptId() {
         return aptId;
     }
