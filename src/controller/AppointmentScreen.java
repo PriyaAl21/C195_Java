@@ -17,10 +17,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Month;
+import java.time.*;
+import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 import utilities.Crud;
 
@@ -91,6 +89,33 @@ public class AppointmentScreen extends Crud implements Initializable {
 
         aptTable.setItems(DataStorage.getAllAppointments());
 
+        checkForAppointment();
+
+    }
+
+    public void checkForAppointment(){
+        for(Appointment apt : DataStorage.getAllAppointments()){
+            LocalDateTime startDateNTime = apt.getStartDateNTime();
+
+           // ZonedDateTime zonedDateTime = startDateTime.atZone(ZoneId.systemDefault());
+            ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.now(),ZoneId.of("America/Chicago"));
+            LocalDateTime now = zonedDateTime.toLocalDateTime();
+            //LocalDateTime now = LocalDateTime.now();
+
+            //System.out.println(now.toString());
+
+            if(now.toLocalDate().toString().equals(startDateNTime.toLocalDate().toString()) && startDateNTime.toLocalTime().isAfter(now.toLocalTime()) ) {
+                System.out.println(startDateNTime.toLocalTime().until(now.toLocalTime(), ChronoUnit.MINUTES));
+                if (startDateNTime.toLocalTime().until(now.toLocalTime(), ChronoUnit.MINUTES) <= 15) {
+
+                    System.out.println("You have an appointment within 15 min!");
+                    Alert time = new Alert(Alert.AlertType.INFORMATION);
+                    time.setTitle("Appointment alert");
+                    time.setContentText("You have an appointment within 15 min!");
+                    time.showAndWait();
+                }
+            }
+        }
     }
 
 

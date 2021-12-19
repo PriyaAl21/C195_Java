@@ -1,14 +1,12 @@
 package model;
 
 import com.mysql.cj.protocol.Resultset;
+import javafx.scene.control.Alert;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
@@ -141,25 +139,31 @@ public class Appointment {
       //
         LocalDateTime start =rs.getTimestamp("Start").toLocalDateTime();
 
-        ZonedDateTime ldtZoned = start.atZone(ZoneId.systemDefault());
+        //ZonedDateTime ldtZoned = start.atZone(ZoneId.systemDefault());
+        ZonedDateTime ldtZoned = start.atZone(ZoneId.of("America/Chicago"));
         LocalDateTime startDateNTime = ldtZoned.toLocalDateTime();
        // String str = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(changedDateTime);
 
      //check if appointments are within 15 min of local time zone
-
-        LocalDateTime now = LocalDateTime.now();
-        //System.out.println(now.toString());
-        System.out.println(startDateNTime.toLocalDate());
-        System.out.println(now.toLocalDate());
-        if(now.toLocalDate().toString().equals(startDateNTime.toLocalDate().toString()) && startDateNTime.toLocalTime().isAfter(now.toLocalTime()) ) {
-            System.out.println(startDateNTime.toLocalTime().until(now.toLocalTime(), ChronoUnit.MINUTES));
-            if (startDateNTime.toLocalTime().until(now.toLocalTime(), ChronoUnit.MINUTES) <= 15) {
-
-                System.out.println("You have an appointment within 15 min!");
-
-            }
-        }
-       // System.out.println(startDT);
+//        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.now(),ZoneId.of("America/Chicago"));
+//        LocalDateTime now = zonedDateTime.toLocalDateTime();
+//        //LocalDateTime now = LocalDateTime.now();
+//
+//        //System.out.println(now.toString());
+//        System.out.println(startDateNTime.toLocalDate());
+//        System.out.println(now.toLocalDate());
+//        if(now.toLocalDate().toString().equals(startDateNTime.toLocalDate().toString()) && startDateNTime.toLocalTime().isAfter(now.toLocalTime()) ) {
+//            System.out.println(startDateNTime.toLocalTime().until(now.toLocalTime(), ChronoUnit.MINUTES));
+//            if (startDateNTime.toLocalTime().until(now.toLocalTime(), ChronoUnit.MINUTES) <= 15) {
+//
+//                System.out.println("You have an appointment within 15 min!");
+//                Alert time = new Alert(Alert.AlertType.INFORMATION);
+//                time.setTitle("Appointment alert");
+//                time.setContentText("You have an appointment within 15 min!");
+//                time.showAndWait();
+//            }
+//        }
+            // System.out.println(startDT);
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 //        LocalDateTime localDateTime= LocalDateTime.parse(start.toString(), formatter);
 //        ZonedDateTime zonedDateTime = localDateTime
@@ -167,22 +171,23 @@ public class Appointment {
 //                .withZoneSameInstant(ZoneId.of("EST", ZoneId.SHORT_IDS));
 //        System.out.println(zonedDateTime);
 
-       // LocalDateTime startDateNTime = rs.getTimestamp("Start").toLocalDateTime();;
+            // LocalDateTime startDateNTime = rs.getTimestamp("Start").toLocalDateTime();;
 
 
-        LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
-        ZonedDateTime ldtZoned1 = end.atZone(ZoneId.systemDefault());
-        LocalDateTime endDateNTime = ldtZoned1.toLocalDateTime();
-       //
-        int customerId =(rs.getInt("Customer_ID"));
-        int userId =(rs.getInt("User_ID"));
+            LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
+            ZonedDateTime endZoned = end.atZone(ZoneId.of("America/Chicago"));
+            LocalDateTime endDateNTime = endZoned.toLocalDateTime();
 
-        Appointment one = new Appointment(aptId, title, description, location, contact,type,
-                startDateNTime, endDateNTime, customerId,  userId);
-        DataStorage.getAllAppointments().add(one);
+            // ZonedDateTime ldtZoned1 = end.atZone(ZoneId.systemDefault());
+            // LocalDateTime endDateNTime = ldtZoned1.toLocalDateTime();
+            //
+            int customerId = (rs.getInt("Customer_ID"));
+            int userId = (rs.getInt("User_ID"));
 
-
-
-
+            Appointment one = new Appointment(aptId, title, description, location, contact, type,
+                    startDateNTime, endDateNTime, customerId, userId);
+            DataStorage.getAllAppointments().add(one);
     }
+
+
 }
