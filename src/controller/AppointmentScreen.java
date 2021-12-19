@@ -134,6 +134,19 @@ public class AppointmentScreen extends Crud implements Initializable {
     }
 
     public void OnModifyAppointment(ActionEvent actionEvent) {
+        try {
+            Appointment apt = (Appointment) aptTable.getSelectionModel().getSelectedItem();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ModifyAppointmentScreen.fxml"));
+            Parent root = loader.load();
+            ModifyAppointmentScreen ma = loader.getController();
+            ma.fillDetails(apt);
+            Stage stage = new Stage();
+            stage.setTitle("Modify Appointment");
+            stage.setScene(new Scene(root, 800, 600));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void OnDeleteAppointment(ActionEvent actionEvent) {
