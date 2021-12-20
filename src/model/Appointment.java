@@ -1,6 +1,6 @@
 package model;
 
-import com.mysql.cj.protocol.Resultset;
+//import com.mysql.cj.protocol.Resultset;
 import javafx.scene.control.Alert;
 
 import java.sql.ResultSet;
