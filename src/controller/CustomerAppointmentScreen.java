@@ -223,9 +223,5 @@
 ////
 ////    }
 //
-//    public void OnSelectWeek(ActionEvent actionEvent) {
-//    }
 //
-//    public void OnSelectMonth(ActionEvent actionEvent) {
-//    }
 //}
