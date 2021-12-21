@@ -29,7 +29,7 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
     public TextField locationField;
     public TextField typeField;
     public ComboBox<String> chooseContact;
-    public TextField ApptIdField;
+    public TextField AptIdField;
     public Button modifyAppointmentButton;
     public TextField startDateTimeField;
     public TextField endDateTimeField;
@@ -89,7 +89,7 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
     }
 
     public void fillDetails(Appointment apt){
-        ApptIdField.setText(String.valueOf(apt.getAptId()));
+        AptIdField.setText(String.valueOf(apt.getAptId()));
         titleField.setText(apt.getTitle());
         descriptionField.setText(apt.getDescription());
         locationField.setText(apt.getLocation());
@@ -108,7 +108,7 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
 
     public void OnModifyAppointment(ActionEvent actionEvent) throws SQLException {
 
-
+        int aptId = Integer.parseInt(AptIdField.getText());
         String title = titleField.getText();
         String description = descriptionField.getText();
         String location = locationField.getText();
@@ -117,7 +117,6 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
         int customerId = Integer.parseInt(customerIDField.getText());
         int userId = Integer.parseInt(userIDField.getText());
         LocalDate date = dateField.getValue();
-        System.out.println("testing");
         //System.out.println(date.toString());
         String startHours = chooseStartHours.getSelectionModel().getSelectedItem();
         String startMin = chooseStartMin.getSelectionModel().getSelectedItem();
@@ -171,48 +170,40 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
 
         //to check if appointments collide
 
-        for (Appointment apt : DataStorage.getAllAppointments()) {
-
-        }
+//        for (Appointment apt : DataStorage.getAllAppointments()) {
+//
+//        }
 
         System.out.println("Select * from contacts where Contact_Name = " + contact);
         ResultSet rs = Select("Select * from contacts where Contact_Name = " + '"' + contact + '"');
         while (rs.next()) {
             int contactId = Integer.parseInt(rs.getString("Contact_ID"));
 
-
-//            System.out.println("Insert into appointments (Appointment_ID, Title,Description, Location, Type," +
-//                    " Start,End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) "+
-//            "Values(null, "+'"'+title+'"' +","+'"'+description+'"' +","+'"'+location+'"' +","+'"'+type+'"' +","+'"'+startDateTime+'"' +","+'"'+endDateTime+'"' +","
-//                    +'"'+createDate+'"' +","+'"'+createdBy+'"' +","+'"'+lastUpdate+'"' +","+'"'+createdBy+'"' +","+'"'+customerId+'"' +","+'"'+userId+'"' +","
-//                    +'"'+contactId+'"');
-
-            InsertUpdateDelete("Insert into appointments (Appointment_ID, Title,Description, Location, Type," +
-                    " Start,End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) " +
-                    "Values(null, " + '"' + title + '"' + "," + '"' + description + '"' + "," + '"' + location + '"' + "," + '"' + type + '"' + "," + '"' + startDateTime + '"' + "," + '"' + endDateTime + '"' + ","
-                    + '"' + createDate + '"' + "," + '"' + createdBy + '"' + "," + '"' + lastUpdate + '"' + "," + '"' + createdBy + '"' + "," + '"' + customerId + '"' + "," + '"' + userId + '"' + ","
-                    + '"' + contactId + '"' + ")");
-
+            InsertUpdateDelete("UPDATE appointments SET Title = " + '"' + title + '"' +
+                    " ,Description = " + '"' + description + '"' + " ,Location = " + '"' + location + '"' + " ,Type = " + '"' + type + '"' +
+                    " ,Start = " + '"' + startDateTime + '"' + " ,End = " + '"' + endDateTime + '"' + " ,Customer_ID = " + '"' + customerId + '"' + " ,User_ID = " + '"' + userId + '"' + ",Contact_ID = " + '"' + contactId + '"' +
+                    " WHERE Appointment_ID = " + aptId);
             ResultSet rs1 =
                     Select("select appointments.Appointment_ID,  appointments.Title, appointments.Description ,appointments.Location,contacts.contact_Name,\n" +
                             "appointments.Type,appointments.Start,appointments.End,appointments.Customer_ID,appointments.User_ID\n" +
                             "from appointments \n" +
                             "join contacts\n" + " on appointments.Contact_ID = contacts.Contact_ID\n order by appointments.Appointment_ID DESC LIMIT 1");
             while (rs1.next()) {
-                for(Appointment apt : DataStorage.getAllAppointments()){
-                    int id =Integer.parseInt(rs1.getString("Appointment_ID"));
-                    if(apt.getAptId() == id){
+                for (Appointment apt : DataStorage.getAllAppointments()) {
+                    int id = Integer.parseInt(rs1.getString("Appointment_ID"));
+                    if (apt.getAptId() == id) {
                         DataStorage.getAllAppointments().remove(apt);
                         Appointment.populate(rs1);
+
                     }
                 }
 
             }
             //Appointment appointment = new Appointment()
             //DataStorage.addAppointment(appointment);
-            Stage stage = (Stage) cancel.getScene().getWindow();
+        }    Stage stage = (Stage) cancel.getScene().getWindow();
             stage.close();
-        }
+
     }
 
     public void OnCancel(ActionEvent actionEvent) {

@@ -44,7 +44,7 @@
                         <Font size="14.0" />
                     </font>
                 </Label>
-                <TextField fx:id="ApptIdField" editable="false" layoutX="230.0" layoutY="152.0" promptText="auto ID-generate" />
+                <TextField fx:id="AptIdField" editable="false" layoutX="230.0" layoutY="152.0" promptText="auto ID-generate" />
                 <Button fx:id="modifyAppointmentButton" layoutX="402.0" layoutY="538.0" mnemonicParsing="false" onAction="#OnModifyAppointment" prefHeight="32.0" prefWidth="116.0" text="Modify Appointment" />
                 <Button fx:id="cancel" layoutX="631.0" layoutY="538.0" mnemonicParsing="false" onAction="#OnCancel" prefHeight="32.0" prefWidth="103.0" text="Cancel" />
                 <Label layoutX="392.0" layoutY="397.0" text="Start Time">
