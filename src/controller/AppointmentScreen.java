@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
+import model.Customer;
 import model.DataStorage;
 
 import java.io.IOException;
@@ -125,7 +126,7 @@ public class AppointmentScreen extends Crud implements Initializable {
             Parent root = FXMLLoader.load(getClass().getResource("/view/AddAppointmentScreen.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Customers");
-            stage.setScene(new Scene(root, 800, 600));
+            stage.setScene(new Scene(root, 900, 600));
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -136,20 +137,41 @@ public class AppointmentScreen extends Crud implements Initializable {
     public void OnModifyAppointment(ActionEvent actionEvent) {
         try {
             Appointment apt = (Appointment) aptTable.getSelectionModel().getSelectedItem();
+            if(apt == null){
+                Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
+                noSelection.setTitle("No Selection made");
+                noSelection.setContentText("Please Select an Appointment to modify!");
+                noSelection.showAndWait();
+            }
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ModifyAppointmentScreen.fxml"));
             Parent root = loader.load();
             ModifyAppointmentScreen ma = loader.getController();
             ma.fillDetails(apt);
             Stage stage = new Stage();
             stage.setTitle("Modify Appointment");
-            stage.setScene(new Scene(root, 800, 600));
+            stage.setScene(new Scene(root, 900, 600));
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void OnDeleteAppointment(ActionEvent actionEvent) {
+    public void OnDeleteAppointment(ActionEvent actionEvent) throws SQLException {
+
+            if (aptTable.getSelectionModel().getSelectedItem() != null) {
+
+                Appointment apt = (Appointment) aptTable.getSelectionModel().getSelectedItem();
+                System.out.println(apt.getAptId());
+                InsertUpdateDelete("Delete from appointments where Appointment_ID= "+ apt.getAptId());
+                DataStorage.deleteAppointment(apt);
+            }
+            else{
+                Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
+                noSelection.setTitle("No Selection made");
+                noSelection.setContentText("Please Select an Appointment to Delete!");
+                noSelection.showAndWait();
+            }
+
     }
 
     public void OnViewWeek(ActionEvent actionEvent) {

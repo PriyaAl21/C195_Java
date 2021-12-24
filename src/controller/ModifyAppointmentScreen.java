@@ -113,15 +113,62 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
         String description = descriptionField.getText();
         String location = locationField.getText();
         String type = typeField.getText();
-        String contact = chooseContact.getSelectionModel().getSelectedItem();
+        String contact;
+        if(chooseContact.getSelectionModel().getSelectedItem()==null){
+            contact = chooseContact.getPromptText();
+        }
+        else{
+           contact = chooseContact.getSelectionModel().getSelectedItem();
+        }
         int customerId = Integer.parseInt(customerIDField.getText());
         int userId = Integer.parseInt(userIDField.getText());
-        LocalDate date = dateField.getValue();
-        //System.out.println(date.toString());
-        String startHours = chooseStartHours.getSelectionModel().getSelectedItem();
-        String startMin = chooseStartMin.getSelectionModel().getSelectedItem();
-        String endHours = chooseEndHours.getSelectionModel().getSelectedItem();
-        String endMin = chooseEndMin.getSelectionModel().getSelectedItem();
+
+        LocalDate date;
+        if(dateField.getValue()==null){
+            date = LocalDate.parse(dateField.getPromptText());
+        }
+        else{
+            date = dateField.getValue();
+        }
+
+        String startHours;
+
+        if(chooseStartHours.getSelectionModel().getSelectedItem()==null){
+            startHours = chooseStartHours.getPromptText();
+        }
+        else{
+            startHours = chooseStartHours.getSelectionModel().getSelectedItem();
+        }
+
+
+        String startMin;
+
+        if(chooseStartMin.getSelectionModel().getSelectedItem()==null){
+            startMin = chooseStartMin.getPromptText();
+        }
+        else{
+            startMin = chooseStartMin.getSelectionModel().getSelectedItem();
+        }
+
+        String endHours;
+
+        if(chooseEndHours.getSelectionModel().getSelectedItem()==null){
+            endHours = chooseEndHours.getPromptText();
+        }
+        else{
+            endHours = chooseEndHours.getSelectionModel().getSelectedItem();
+        }
+
+        String endMin;
+
+        if(chooseEndMin.getSelectionModel().getSelectedItem()==null){
+            endMin = chooseEndMin.getPromptText();
+        }
+        else{
+            endMin = chooseEndMin.getSelectionModel().getSelectedItem();
+        }
+
+
         // DateTimeFormatter parser = DateTimeFormatter.ofPattern("hh:mm:00");
         LocalTime localStartTime = LocalTime.parse(startHours + ":" + startMin + ":" + "00");
         LocalTime localEndTime = LocalTime.parse(endHours + ":" + endMin + ":" + "00");
@@ -174,7 +221,7 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
 //
 //        }
 
-        System.out.println("Select * from contacts where Contact_Name = " + contact);
+
         ResultSet rs = Select("Select * from contacts where Contact_Name = " + '"' + contact + '"');
         while (rs.next()) {
             int contactId = Integer.parseInt(rs.getString("Contact_ID"));
@@ -199,14 +246,15 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
                 }
 
             }
-            //Appointment appointment = new Appointment()
-            //DataStorage.addAppointment(appointment);
+
         }    Stage stage = (Stage) cancel.getScene().getWindow();
             stage.close();
 
     }
 
     public void OnCancel(ActionEvent actionEvent) {
+        Stage stage = (Stage) cancel.getScene().getWindow();
+        stage.close();
     }
     //int apptId, String title, String description, String location, String contact, String type,
     //                       LocalDateTime startDateNTime, LocalDateTime endDateNTime, int customerId, int userId

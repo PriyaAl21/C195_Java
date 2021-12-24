@@ -78,7 +78,7 @@ public class DataStorage {
         }
     }
 
-    public static void deleteAppointmen(Appointment apt){
+    public static void deleteAppointment(Appointment apt){
         for (Appointment c : allAppointments) {
             if (c.getAptId() == apt.getAptId()) {
                 allAppointments.remove(c);

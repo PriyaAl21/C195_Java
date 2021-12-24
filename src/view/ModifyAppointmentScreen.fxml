@@ -38,14 +38,14 @@
                 <TextField fx:id="locationField" layoutX="230.0" layoutY="293.0" />
                 <TextField fx:id="typeField" layoutX="230.0" layoutY="340.0" prefHeight="25.0" prefWidth="128.0" />
                 <Label layoutX="246.0" layoutY="164.0" />
-                <ComboBox fx:id="chooseContact" layoutX="467.0" layoutY="293.0" onAction="#OnChooseContact" prefHeight="25.0" prefWidth="103.0" promptText="Contact" />
+                <ComboBox fx:id="chooseContact" layoutX="467.0" layoutY="293.0" onAction="#OnChooseContact" prefHeight="25.0" prefWidth="150.0" promptText="Contact" />
                 <Label layoutX="87.0" layoutY="154.0" text="Appointment ID">
                     <font>
                         <Font size="14.0" />
                     </font>
                 </Label>
                 <TextField fx:id="AptIdField" editable="false" layoutX="230.0" layoutY="152.0" promptText="auto ID-generate" />
-                <Button fx:id="modifyAppointmentButton" layoutX="402.0" layoutY="538.0" mnemonicParsing="false" onAction="#OnModifyAppointment" prefHeight="32.0" prefWidth="116.0" text="Modify Appointment" />
+                <Button fx:id="modifyAppointmentButton" layoutX="402.0" layoutY="538.0" mnemonicParsing="false" onAction="#OnModifyAppointment" prefHeight="32.0" prefWidth="160.0" text="Modify Appointment" />
                 <Button fx:id="cancel" layoutX="631.0" layoutY="538.0" mnemonicParsing="false" onAction="#OnCancel" prefHeight="32.0" prefWidth="103.0" text="Cancel" />
                 <Label layoutX="392.0" layoutY="397.0" text="Start Time">
                     <font>

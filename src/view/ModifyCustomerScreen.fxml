@@ -45,14 +45,14 @@
                 <TextField fx:id="postalCodeField"  layoutX="246.0" layoutY="272.0" />
                 <Label layoutX="246.0" layoutY="164.0" text="Apt#,Street" />
                 <ComboBox fx:id="chooseCountry" layoutX="461.0" layoutY="160.0" onAction="#OnChooseCountry" prefHeight="25.0" prefWidth="103.0" promptText="Country" />
-                <ComboBox fx:id="chooseDivision" layoutX="595.0" layoutY="160.0" onAction="#OnChooseDivision" prefHeight="25.0" prefWidth="126.0" promptText="State/Province" />
+                <ComboBox fx:id="chooseDivision" layoutX="595.0" layoutY="160.0" onAction="#OnChooseDivision" prefHeight="25.0" prefWidth="150.0" promptText="State/Province" />
                 <Label layoutX="87.0" layoutY="61.0" text="Customer ID">
                     <font>
                         <Font size="14.0" />
                     </font>
                 </Label>
                 <TextField fx:id="customerNameId"  editable="false" layoutX="246.0" layoutY="58.0" promptText="auto ID-generate" />
-                <Button fx:id="modifyCustomerButton" layoutX="246.0" layoutY="348.0" mnemonicParsing="false" onAction="#OnUpdateCustomer" prefHeight="25.0" prefWidth="103.0" text="Update Customer" />
+                <Button fx:id="modifyCustomerButton" layoutX="246.0" layoutY="348.0" mnemonicParsing="false" onAction="#OnUpdateCustomer" prefHeight="25.0" prefWidth="150.0" text="Update Customer" />
                 <Button fx:id="cancelButton" layoutX="435.0" layoutY="348.0" mnemonicParsing="false" onAction="#OnCancel" prefHeight="25.0" prefWidth="103.0" text="Cancel" />
             </children>
         </Pane>
