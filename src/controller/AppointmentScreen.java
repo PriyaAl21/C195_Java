@@ -46,6 +46,7 @@ public class AppointmentScreen extends Crud implements Initializable {
     public Button exitButton;
     public Button typeReport;
     public Button contactReport;
+    public Button customerReport;
 
 
     @Override
@@ -268,7 +269,7 @@ public class AppointmentScreen extends Crud implements Initializable {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentTypeScreen.fxml"));
             Stage stage = new Stage();
-            stage.setTitle("Customers");
+            stage.setTitle("Appointment types");
             stage.setScene(new Scene(root, 900, 600));
             stage.show();
         } catch (Exception e) {
@@ -280,6 +281,14 @@ public class AppointmentScreen extends Crud implements Initializable {
     public void onContactReport(ActionEvent actionEvent) throws IOException {
         Stage primaryStage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("/view/ContactAppointments.fxml"));
+        primaryStage.setTitle("Welcome");
+        primaryStage.setScene(new Scene(root, 900, 600));
+        primaryStage.show();
+    }
+
+    public void onCustomerReport(ActionEvent actionEvent) throws IOException {
+        Stage primaryStage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerAppointments.fxml"));
         primaryStage.setTitle("Welcome");
         primaryStage.setScene(new Scene(root, 900, 600));
         primaryStage.show();

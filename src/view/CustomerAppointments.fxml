@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="436.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerAppointmentScreen">
+
+    <children>
+
+        <Button fx:id="close" layoutX="675.0" layoutY="368.0" mnemonicParsing="false" onAction="#OnClose" prefHeight="26.0" prefWidth="62.0" text="Close" />
+        <Label layoutX="367.0" layoutY="26.0" prefHeight="26.0" prefWidth="172.0" text="Customer Appointment Report">
+            <font>
+                <Font name="System Bold" size="13.0" />
+            </font>
+        </Label>
+        <Pane layoutX="71.0" layoutY="74.0" prefHeight="263.0" prefWidth="478.0" style="-fx-border-color: black; -fx-border-radius: 5;">
+            <children>
+                <Button fx:id="Jan" layoutX="39.0" layoutY="36.0" mnemonicParsing="false" onAction="#onJan" prefHeight="26.0" prefWidth="75.0" text="January" />
+                <Button fx:id="feb" layoutX="153.0" layoutY="36.0" mnemonicParsing="false" onAction="#onFeb" prefHeight="26.0" prefWidth="75.0" text="February" />
+                <Button fx:id="march" layoutX="267.0" layoutY="36.0" mnemonicParsing="false" onAction="#onMarch" prefHeight="26.0" prefWidth="75.0" text="March" />
+                <Button fx:id="may" layoutX="39.0" layoutY="106.0" mnemonicParsing="false" onAction="#onMay" prefHeight="26.0" prefWidth="75.0" text="May" />
+                <Button fx:id="june" layoutX="153.0" layoutY="106.0" mnemonicParsing="false" onAction="#onJune" prefHeight="26.0" prefWidth="75.0" text="June" />
+                <Button fx:id="july" layoutX="267.0" layoutY="106.0" mnemonicParsing="false" onAction="#onJuly" prefHeight="26.0" prefWidth="75.0" text="July" />
+                <Button fx:id="oct" layoutX="153.0" layoutY="177.0" mnemonicParsing="false" onAction="#onOct" prefHeight="26.0" prefWidth="75.0" text="October" />
+                <Button fx:id="sep" layoutX="39.0" layoutY="177.0" mnemonicParsing="false" onAction="#onSep" prefHeight="26.0" prefWidth="75.0" text="September" />
+                <Button fx:id="nov" layoutX="267.0" layoutY="177.0" mnemonicParsing="false" onAction="#onNov" prefHeight="26.0" prefWidth="75.0" text="November" />
+                <Button fx:id="Aug" layoutX="370.0" layoutY="106.0" mnemonicParsing="false" onAction="#onAug" prefHeight="26.0" prefWidth="75.0" text="August" />
+                <Button fx:id="april" layoutX="370.0" layoutY="36.0" mnemonicParsing="false" onAction="#onApril" prefHeight="26.0" prefWidth="75.0" text="April" />
+                <Button fx:id="dec" layoutX="370.0" layoutY="177.0" mnemonicParsing="false" onAction="#onDec" prefHeight="26.0" prefWidth="75.0" text="December" />
+            </children>
+        </Pane>
+        <TableView fx:id="cusTable" layoutX="586.0" layoutY="74.0" prefHeight="263.0" prefWidth="234.0" style="-fx-border-color: black; -fx-border-radius: 5;">
+            <columns>
+                <TableColumn fx:id="cusAptCol" prefWidth="132.7999267578125" text="Customer Name" />
+                <TableColumn fx:id="countCol" prefWidth="95.2000732421875" text="Number of Appointments" />
+            </columns>
+        </TableView>
+
+
+    </children>
+
+
+</AnchorPane>
