@@ -37,45 +37,64 @@ public class CustomerScreen extends Crud implements Initializable {
     public Button addCustomer;
     public Button modifyCustomer;
     public Button deleteCustomer;
+    public Button close;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        ResultSet rs = null;
+
+            ResultSet rs = null;
+            ResultSet count = null;
+            int n = 0;
         try {
-            rs = Select("Select * from customers");
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+           count = Select("Select count(*) from customers");
+            while(count.next()) {
+                n = Integer.parseInt(count.getString("count(*)"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        while (true) {
-            try {
-                if (!rs.next()) break;
+        try {
+                rs = Select("Select * from customers");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
 
-            try {
-                Customer.populate(rs);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            while (true) {
+                try {
+                    if (!rs.next()) break;
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+
+
+                try {
+                    if(DataStorage.getAllCustomers().size()<n)
+                    Customer.populate(rs);
+                    else{
+                        System.out.println("na");
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+
             }
 
-        }
 
+            customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+            customerNameCol.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
+            addressCol.setCellValueFactory(new PropertyValueFactory<Customer, String>("address"));
+            postalCodeCol.setCellValueFactory(new PropertyValueFactory<Customer, String>("postalCode"));
+            phoneCol.setCellValueFactory(new PropertyValueFactory<Customer, String>("phone"));
+            createDateCol.setCellValueFactory(new PropertyValueFactory<Customer, LocalDateTime>("createDate"));
+            createdByCol.setCellValueFactory(new PropertyValueFactory<Customer, String>("createdBy"));
+            lastUpdateCol.setCellValueFactory(new PropertyValueFactory<Customer, Timestamp>("lastUpdate"));
+            lastUpdatedByCol.setCellValueFactory(new PropertyValueFactory<Customer, String>("lastUpdatedBy"));
+            divisionIdCol.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("divisionId"));
 
-        customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
-        customerNameCol.setCellValueFactory(new PropertyValueFactory<Customer, String>("customerName"));
-        addressCol.setCellValueFactory(new PropertyValueFactory<Customer, String>("address"));
-        postalCodeCol.setCellValueFactory(new PropertyValueFactory<Customer, String>("postalCode"));
-        phoneCol.setCellValueFactory(new PropertyValueFactory<Customer, String>("phone"));
-        createDateCol.setCellValueFactory(new PropertyValueFactory<Customer, LocalDateTime>("createDate"));
-        createdByCol.setCellValueFactory(new PropertyValueFactory<Customer, String>("createdBy"));
-        lastUpdateCol.setCellValueFactory(new PropertyValueFactory<Customer, Timestamp>("lastUpdate"));
-        lastUpdatedByCol.setCellValueFactory(new PropertyValueFactory<Customer, String>("lastUpdatedBy"));
-        divisionIdCol.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("divisionId"));
+            customerTable.setItems(DataStorage.getAllCustomers());
 
-        customerTable.setItems(DataStorage.getAllCustomers());
 
     }
 
@@ -132,6 +151,21 @@ public class CustomerScreen extends Crud implements Initializable {
             noSelection.showAndWait();
         }
     }
+
+
+
+
+
+    public void onClose(ActionEvent actionEvent) {
+
+    Stage stage = (Stage) close.getScene().getWindow();
+    stage.close();
+
+        }
+
+
+
+
 
 
 }

@@ -136,7 +136,9 @@ public class Customer {
             Customer one = new Customer(customerId, customerName, address, phone, postalCode, createDate, createdBy, lastUpdate,
                     lastUpdatedBy, divisionId);
             DataStorage.getAllCustomers().add(one);
-            System.out.println(one.getCustomerId());
+
+
+            //System.out.println(one.getCustomerId());
 
 
 

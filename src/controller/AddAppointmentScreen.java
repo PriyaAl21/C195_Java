@@ -193,6 +193,8 @@ public class AddAppointmentScreen extends Crud implements Initializable {
     }
 
     public void OnCancel(ActionEvent actionEvent) {
+        Stage stage = (Stage) cancel.getScene().getWindow();
+        stage.close();
     }
 
     public void OnChooseContact(ActionEvent actionEvent) {

@@ -99,17 +99,18 @@ public class AppointmentScreen extends Crud implements Initializable {
             LocalDateTime startDateNTime = apt.getStartDateNTime();
 
            // ZonedDateTime zonedDateTime = startDateTime.atZone(ZoneId.systemDefault());
-            ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.now(),ZoneId.of("America/Chicago"));
+            //ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.now(),ZoneId.of("America/Chicago"));
+            ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.now(),ZoneId.systemDefault());
             LocalDateTime now = zonedDateTime.toLocalDateTime();
             //LocalDateTime now = LocalDateTime.now();
 
             //System.out.println(now.toString());
 
             if(now.toLocalDate().toString().equals(startDateNTime.toLocalDate().toString()) && startDateNTime.toLocalTime().isAfter(now.toLocalTime()) ) {
-                System.out.println(startDateNTime.toLocalTime().until(now.toLocalTime(), ChronoUnit.MINUTES));
+                //System.out.println(startDateNTime.toLocalTime().until(now.toLocalTime(), ChronoUnit.MINUTES));
                 if (startDateNTime.toLocalTime().until(now.toLocalTime(), ChronoUnit.MINUTES) <= 15) {
 
-                    System.out.println("You have an appointment within 15 min!");
+                    //System.out.println("You have an appointment within 15 min!");
                     Alert time = new Alert(Alert.AlertType.INFORMATION);
                     time.setTitle("Appointment alert");
                     time.setContentText("You have an appointment within 15 min!");
@@ -262,6 +263,16 @@ public class AppointmentScreen extends Crud implements Initializable {
 
 
     public void onTypeReport(ActionEvent actionEvent) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentTypeScreen.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Customers");
+            stage.setScene(new Scene(root, 900, 600));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void onContactReport(ActionEvent actionEvent) throws IOException {

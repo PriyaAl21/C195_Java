@@ -23,85 +23,121 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
-public class AppointmentTypeScreen extends Crud implements Initializable {
-    public TableView aptTable;
-    public TableColumn aptIdCol;
-    public TableColumn titleCol;
-    public TableColumn descriptionCol;
-    public TableColumn typeCol;
-    public TableColumn startDateTimeCol;
-    public TableColumn endDateTimeCol;
-    public TableColumn customerIDCol;
+
+public class AppointmentTypeScreen extends Crud {
+    public Button Jan;
+    public Button feb;
+    public Button march;
+    public Button may;
+    public Button june;
+    public Button july;
+    public Button oct;
+    public Button sep;
+    public Button nov;
+    public Button Aug;
+    public Button april;
+    public Button dec;
+    public TableView typeTable;
+    public TableColumn aptTypeCol;
+    public TableColumn countCol;
     public Button close;
-    public ComboBox contactCombo;
 
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-// contact names in combo box
-        ObservableList<String> contactNames = FXCollections.observableArrayList();
-        try {
-            ResultSet rs = (ResultSet) Select("select * from contacts");
-            while (rs.next()) {
-                contactNames.add(rs.getString("Contact_Name"));
-            }
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+    public static class AppointmentType{
+        public String type;
+        public int count;
+        public AppointmentType(String type, int count) {
+            this.type = type;
+            this.count = count;
         }
-        contactCombo.setItems(contactNames);
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public int getCount() {
+            return count;
+        }
+
+        public void setCount(int count) {
+            this.count = count;
+        }
     }
+
+    public void getCount(int month) throws SQLException {
+        String type;
+        int count;
+        ObservableList<AppointmentType>aptTypeItems = FXCollections.observableArrayList();
+
+        System.out.println("Select type, count(*) from Appointments where EXTRACT(month FROM Start) = "+month+ " group by type");
+        ResultSet rs = Select("Select Type, count(*) from Appointments where EXTRACT(month FROM Start) = "+month+ " group by Type");
+        while (rs.next()) {
+            type = rs.getString("Type");
+            count = Integer.parseInt(rs.getString("count(*)"));
+            AppointmentType aptType = new AppointmentType(type, count);
+            aptTypeItems.add(aptType);
+        }
+        aptTypeCol.setCellValueFactory(new PropertyValueFactory<>("Type"));
+        countCol.setCellValueFactory(new PropertyValueFactory<>("Count"));
+        typeTable.setItems(aptTypeItems);
+    }
+
+
+    public void onJan(ActionEvent actionEvent) throws SQLException {
+        getCount(1);
+
+    }
+
+    public void onFeb(ActionEvent actionEvent) throws SQLException {
+        getCount(2);
+    }
+
+    public void onMarch(ActionEvent actionEvent) throws SQLException {
+        getCount(3);
+    }
+
+    public void onMay(ActionEvent actionEvent) throws SQLException {
+        getCount(5);
+    }
+
+    public void onJune(ActionEvent actionEvent) throws SQLException {
+        getCount(6);
+    }
+
+    public void onJuly(ActionEvent actionEvent) throws SQLException {
+        getCount(7);
+    }
+
+    public void onOct(ActionEvent actionEvent) throws SQLException {
+         getCount(10);
+    }
+
+    public void onSep(ActionEvent actionEvent) throws SQLException {
+         getCount(9);
+    }
+
+    public void onNov(ActionEvent actionEvent) throws SQLException {
+         getCount(11);
+    }
+
+    public void onAug(ActionEvent actionEvent) throws SQLException {
+         getCount(8);
+    }
+
+    public void onApril(ActionEvent actionEvent) throws SQLException {
+         getCount(4);
+    }
+
+    public void onDec(ActionEvent actionEvent) throws SQLException {
+         getCount(12);
+    }
+
 
     public void OnClose(ActionEvent actionEvent) {
         Stage stage = (Stage) close.getScene().getWindow();
         stage.close();
-    }
-
-    public void OnContactCombo(ActionEvent actionEvent) throws SQLException {
-        ObservableList<Appointment> aptTypes = FXCollections.observableArrayList();
-        String contact = (String) contactCombo.getSelectionModel().getSelectedItem();
-        System.out.println("select appointments.Appointment_ID,  appointments.Title, appointments.Description,\n" +
-                "appointments.Type,appointments.Start,appointments.End,appointments.Customer_ID\n" +
-                "from appointments \n" +
-                "join contacts\n" +" on appointments.Contact_ID = contacts.Contact_ID\n " +
-                "where contacts.Contact_Name = "+ contact+" order by appointments.Appointment_ID");
-        ResultSet rs =
-                Select("select appointments.Appointment_ID,  appointments.Title, appointments.Description,\n" +
-                        "appointments.Type,appointments.Start,appointments.End,appointments.Customer_ID\n" +
-                        "from appointments \n" +
-                        "join contacts\n" +" on appointments.Contact_ID = contacts.Contact_ID\n " +
-                        "where contacts.Contact_Name = "+ '"'+contact+'"'+" order by appointments.Appointment_ID");
-        while (rs.next()) {
-            int aptId = Integer.parseInt(rs.getString("Appointment_ID"));
-            String title = rs.getString("Title");
-            String description = rs.getString("Description");
-            String type = rs.getString("Type");
-
-            LocalDateTime start = rs.getTimestamp("Start").toLocalDateTime();
-            ZonedDateTime ldtZoned = start.atZone(ZoneId.systemDefault());
-            LocalDateTime startDateNTime = ldtZoned.toLocalDateTime();
-
-            LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
-            ZonedDateTime ldtZoned1 = end.atZone(ZoneId.systemDefault());
-            LocalDateTime endDateNTime = ldtZoned1.toLocalDateTime();
-
-            int customerId = (rs.getInt("Customer_ID"));
-
-            Appointment newApt = new Appointment(aptId,title,description,type,startDateNTime,endDateNTime,customerId);
-            aptTypes.add(newApt);
-        }
-
-       for (Appointment apt:aptTypes){
-           System.out.println(apt.getAptId());
-        };
-            aptIdCol.setCellValueFactory(new PropertyValueFactory<>("aptId"));
-            titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
-            descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
-            typeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
-            startDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("startDateNTime"));
-            endDateTimeCol.setCellValueFactory(new PropertyValueFactory<>("endDateNTime"));
-            customerIDCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
-
-            aptTable.setItems(aptTypes);
-
-
     }
 }

@@ -33,7 +33,7 @@
         <Button fx:id="addCustomer" layoutX="174.0" layoutY="406.0" mnemonicParsing="false" onAction="#onAddCustomer" prefHeight="26.0" prefWidth="72.0" text="Add" />
         <Button fx:id="modifyCustomer" layoutX="333.0" layoutY="406.0" mnemonicParsing="false" onAction="#OnModifyCustomer" prefHeight="26.0" prefWidth="72.0" text="Edit" />
         <Button fx:id="deleteCustomer" layoutX="510.0" layoutY="406.0" mnemonicParsing="false" onAction="#onDeleteCustomer" prefHeight="26.0" prefWidth="72.0" text="Delete" />
-
+        <Button fx:id="close" layoutX="510.0" layoutY="406.0" mnemonicParsing="false" onAction="#onClose" prefHeight="26.0" prefWidth="72.0" text="Close"/>
     </children>
 
 
