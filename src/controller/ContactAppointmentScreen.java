@@ -106,39 +106,5 @@ public class ContactAppointmentScreen extends Crud implements Initializable {
 
     }
 
-    public void onJan(ActionEvent actionEvent) {
-    }
 
-    public void onFeb(ActionEvent actionEvent) {
-    }
-
-    public void onMarch(ActionEvent actionEvent) {
-    }
-
-    public void onMay(ActionEvent actionEvent) {
-    }
-
-    public void onJune(ActionEvent actionEvent) {
-    }
-
-    public void onJuly(ActionEvent actionEvent) {
-    }
-
-    public void onOct(ActionEvent actionEvent) {
-    }
-
-    public void onSep(ActionEvent actionEvent) {
-    }
-
-    public void onNov(ActionEvent actionEvent) {
-    }
-
-    public void onAug(ActionEvent actionEvent) {
-    }
-
-    public void onApril(ActionEvent actionEvent) {
-    }
-
-    public void onDec(ActionEvent actionEvent) {
-    }
 }

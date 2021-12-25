@@ -259,6 +259,8 @@ public class AppointmentScreen extends Crud implements Initializable {
     }
 
     public void OnExit(ActionEvent actionEvent) {
+        Stage stage = (Stage) exitButton.getScene().getWindow();
+        stage.close();
     }
 
 
@@ -277,9 +279,9 @@ public class AppointmentScreen extends Crud implements Initializable {
 
     public void onContactReport(ActionEvent actionEvent) throws IOException {
         Stage primaryStage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentTypeScreen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/ContactAppointments.fxml"));
         primaryStage.setTitle("Welcome");
-        primaryStage.setScene(new Scene(root, 1200, 700));
+        primaryStage.setScene(new Scene(root, 900, 600));
         primaryStage.show();
     }
 }
