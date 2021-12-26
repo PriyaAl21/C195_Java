@@ -72,7 +72,6 @@ public class AppointmentTypeScreen extends Crud {
         int count;
         ObservableList<AppointmentType>aptTypeItems = FXCollections.observableArrayList();
 
-        System.out.println("Select type, count(*) from Appointments where EXTRACT(month FROM Start) = "+month+ " group by type");
         ResultSet rs = Select("Select Type, count(*) from Appointments where EXTRACT(month FROM Start) = "+month+ " group by Type");
         while (rs.next()) {
             type = rs.getString("Type");

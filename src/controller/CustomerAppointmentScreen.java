@@ -62,12 +62,6 @@ public class CustomerAppointmentScreen extends Crud {
         int count;
         ObservableList<customerAppointment>aptTypeItems = FXCollections.observableArrayList();
 
-        System.out.println("SELECT customers.Customer_Name, count(*)\n" +
-                "FROM appointments\n" +
-                "JOIN customers\n" +
-                "ON appointments.Customer_ID = customers.Customer_ID\n" +
-                "where EXTRACT(month FROM appointments.start)= "+month+ "\n" +
-                "group by Customer_Name");
         ResultSet rs = Select("SELECT customers.Customer_Name, count(*)\n" +
                 "FROM appointments\n" +
                 "JOIN customers\n" +

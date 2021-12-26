@@ -59,11 +59,6 @@ public class ContactAppointmentScreen extends Crud implements Initializable {
     public void OnContactCombo(ActionEvent actionEvent) throws SQLException {
         ObservableList<Appointment> aptTypes = FXCollections.observableArrayList();
         String contact = (String) contactCombo.getSelectionModel().getSelectedItem();
-        System.out.println("select appointments.Appointment_ID,  appointments.Title, appointments.Description,\n" +
-                "appointments.Type,appointments.Start,appointments.End,appointments.Customer_ID\n" +
-                "from appointments \n" +
-                "join contacts\n" +" on appointments.Contact_ID = contacts.Contact_ID\n " +
-                "where contacts.Contact_Name = "+ contact+" order by appointments.Appointment_ID");
         ResultSet rs =
                 Select("select appointments.Appointment_ID,  appointments.Title, appointments.Description,\n" +
                         "appointments.Type,appointments.Start,appointments.End,appointments.Customer_ID\n" +
