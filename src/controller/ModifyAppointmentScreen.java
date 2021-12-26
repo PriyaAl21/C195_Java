@@ -4,10 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.DataStorage;
@@ -106,7 +103,7 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
     public void OnChooseContact(ActionEvent actionEvent) {
     }
 
-    public void OnModifyAppointment(ActionEvent actionEvent) throws SQLException {
+    public int OnModifyAppointment(ActionEvent actionEvent) throws SQLException {
 
         int aptId = Integer.parseInt(AptIdField.getText());
         String title = titleField.getText();
@@ -134,7 +131,11 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
         String startHours;
 
         if(chooseStartHours.getSelectionModel().getSelectedItem()==null){
-            startHours = chooseStartHours.getPromptText();
+            if(chooseStartHours.getPromptText().length() == 1){
+                String hour = "0" + chooseStartHours.getPromptText();
+                startHours = hour;
+            }
+            else{startHours = chooseStartHours.getPromptText();}
         }
         else{
             startHours = chooseStartHours.getSelectionModel().getSelectedItem();
@@ -157,7 +158,11 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
         String endHours;
 
         if(chooseEndHours.getSelectionModel().getSelectedItem()==null){
-            endHours = chooseEndHours.getPromptText();
+            if(chooseEndHours.getPromptText().length() == 1){
+                String hour = "0" + chooseEndHours.getPromptText();
+                endHours = hour;
+            }
+            else{endHours = chooseEndHours.getPromptText();}
         }
         else{
             endHours = chooseEndHours.getSelectionModel().getSelectedItem();
@@ -185,7 +190,7 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
         localEndTime.plusSeconds(00);
         LocalDateTime startDateTime = LocalDateTime.of(date, localStartTime);
         LocalDateTime endDateTime = LocalDateTime.of(date, localEndTime);
-
+        System.out.println(startDateTime);
         //converting start time and end time to eastern time
         ZoneId Eastern = ZoneId.of("America/New_York");
         ZonedDateTime localStart = startDateTime.atZone(ZoneId.systemDefault());
@@ -206,16 +211,16 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
         LocalTime lowerLimit = LocalTime.parse("08:00:00");
         LocalTime upperLimit = LocalTime.parse("22:00:00");
 
-        if (startEastTime.compareTo(lowerLimit) < 1) {
+        if (startEastTime.compareTo(lowerLimit) < 0) {
             System.out.println("too early!");
-        } else if (startEastTime.compareTo(upperLimit) > 1) {
+        } else if (startEastTime.compareTo(upperLimit) > 0) {
             System.out.println("late!");
         }
 
 
-        if (endEastTime.compareTo(lowerLimit) < 1) {
+        if (endEastTime.compareTo(lowerLimit) < 0) {
             System.out.println("too early!");
-        } else if (endEastTime.compareTo(upperLimit) > 1) {
+        } else if (endEastTime.compareTo(upperLimit) > 0) {
             System.out.println("late!");
         }
         //
@@ -226,10 +231,37 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
 
         //to check if appointments collide
 
-//        for (Appointment apt : DataStorage.getAllAppointments()) {
-//
-//        }
-
+        for (Appointment apt : DataStorage.getAllAppointments()) {
+            LocalDateTime MS = startDateTime;
+            LocalDateTime ME = endDateTime;
+            LocalDateTime JS = apt.getStartDateNTime();
+            LocalDateTime JE = apt.getEndDateNTime();
+            System.out.println(apt.getAptId());
+            System.out.println(aptId);
+            if(apt.getAptId()!= aptId) {
+                if (customerId == apt.getCustomerId()) {
+                    if ((MS.isAfter(JS) || MS.isEqual(JS)) && MS.isBefore(JE)) {
+                        Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
+                        noSelection.setTitle("Appointment collision");
+                        noSelection.setContentText("There is an existing appointment in this time interval!\n" + "Please change times!");
+                        noSelection.showAndWait();
+                        return -1;
+                    } else if (ME.isAfter(JS) && (ME.isBefore(JE) || ME.isEqual(JE))) {
+                        Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
+                        noSelection.setTitle("Appointment collision");
+                        noSelection.setContentText("There is an existing appointment in this time interval!\n" + "Please change times!");
+                        noSelection.showAndWait();
+                        return -1;
+                    } else if ((MS.isBefore(JS) || MS.isEqual(JS)) && (ME.isAfter(JE) || ME.isEqual(JE))) {
+                        Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
+                        noSelection.setTitle("Appointment collision");
+                        noSelection.setContentText("There is an existing appointment in this time interval!\n" + "Please change times!");
+                        noSelection.showAndWait();
+                        return -1;
+                    }
+                }
+            }
+        }
 
         ResultSet rs = Select("Select * from contacts where Contact_Name = " + '"' + contact + '"');
         while (rs.next()) {
@@ -239,25 +271,30 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
                     " ,Description = " + '"' + description + '"' + " ,Location = " + '"' + location + '"' + " ,Type = " + '"' + type + '"' +
                     " ,Start = " + '"' + startDateTime + '"' + " ,End = " + '"' + endDateTime + '"' + " ,Customer_ID = " + '"' + customerId + '"' + " ,User_ID = " + '"' + userId + '"' + ",Contact_ID = " + '"' + contactId + '"' +
                     " WHERE Appointment_ID = " + aptId);
-            ResultSet rs1 =
-                    Select("select appointments.Appointment_ID,  appointments.Title, appointments.Description ,appointments.Location,contacts.contact_Name,\n" +
-                            "appointments.Type,appointments.Start,appointments.End,appointments.Customer_ID,appointments.User_ID\n" +
-                            "from appointments \n" +
-                            "join contacts\n" + " on appointments.Contact_ID = contacts.Contact_ID\n order by appointments.Appointment_ID DESC LIMIT 1");
-            while (rs1.next()) {
-                for (Appointment apt : DataStorage.getAllAppointments()) {
-                    int id = Integer.parseInt(rs1.getString("Appointment_ID"));
-                    if (apt.getAptId() == id) {
-                        DataStorage.getAllAppointments().remove(apt);
-                        Appointment.populate(rs1);
+//            ResultSet rs1 =
+//                    Select("select appointments.Appointment_ID,  appointments.Title, appointments.Description ,appointments.Location,contacts.contact_Name,\n" +
+//                            "appointments.Type,appointments.Start,appointments.End,appointments.Customer_ID,appointments.User_ID\n" +
+//                            "from appointments \n" +
+//                            "join contacts\n" + " on appointments.Contact_ID = contacts.Contact_ID\n order by appointments.Appointment_ID DESC LIMIT 1");
+//            while (rs1.next()) {
+//                for (Appointment apt : DataStorage.getAllAppointments()) {
+//                    int id = Integer.parseInt(rs1.getString("Appointment_ID"));
+//                    if (apt.getAptId() == id) {
+//                        DataStorage.getAllAppointments().remove(apt);
+//                        Appointment.populate(rs1);
+//
+//                    }
+//                }
+//
+//            }
 
-                    }
-                }
-
-            }
+            Appointment modified = new Appointment(aptId,title,description,location, contact,type,
+                    startDateTime,  endDateTime,customerId, userId);
+            DataStorage.modifyAppointment(modified);
 
         }    Stage stage = (Stage) cancel.getScene().getWindow();
             stage.close();
+            return 0;
 
     }
 

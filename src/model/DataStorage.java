@@ -26,7 +26,7 @@ public class DataStorage {
      *
      * @param appointment
      */
-    public static void addAppoinment(Appointment appointment) {
+    public static void addAppointment(Appointment appointment) {
         allAppointments.add(appointment);
     }
 
@@ -54,6 +54,7 @@ public class DataStorage {
             if(c.getAptId()==apt.getAptId()){
                 allAppointments.remove(c);
                 allAppointments.add(apt);
+                //allAppointments.sort(c.getAptId());
                 break;
             }
         }
