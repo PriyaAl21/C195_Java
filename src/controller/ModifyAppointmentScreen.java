@@ -144,7 +144,11 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
         String startMin;
 
         if(chooseStartMin.getSelectionModel().getSelectedItem()==null){
-            startMin = chooseStartMin.getPromptText();
+            if(chooseStartMin.getPromptText().equals("0")){
+                String min = chooseStartMin.getPromptText() + "0";
+                startMin = min;
+            }
+            else{startMin = chooseStartMin.getPromptText();}
         }
         else{
             startMin = chooseStartMin.getSelectionModel().getSelectedItem();
@@ -162,7 +166,11 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
         String endMin;
 
         if(chooseEndMin.getSelectionModel().getSelectedItem()==null){
-            endMin = chooseEndMin.getPromptText();
+            if(chooseEndMin.getPromptText().equals("0")){
+                String min = chooseEndMin.getPromptText() + "0";
+                endMin = min;
+            }
+            else{endMin = chooseEndMin.getPromptText();}
         }
         else{
             endMin = chooseEndMin.getSelectionModel().getSelectedItem();
@@ -170,6 +178,7 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
 
 
         // DateTimeFormatter parser = DateTimeFormatter.ofPattern("hh:mm:00");
+        System.out.println(startMin);
         LocalTime localStartTime = LocalTime.parse(startHours + ":" + startMin + ":" + "00");
         LocalTime localEndTime = LocalTime.parse(endHours + ":" + endMin + ":" + "00");
         localStartTime.plusSeconds(00);
