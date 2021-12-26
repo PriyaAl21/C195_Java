@@ -139,8 +139,8 @@ public class Appointment {
       //
         LocalDateTime start =rs.getTimestamp("Start").toLocalDateTime();
 
-        //ZonedDateTime ldtZoned = start.atZone(ZoneId.systemDefault());
-        ZonedDateTime ldtZoned = start.atZone(ZoneId.of("America/Chicago"));
+        ZonedDateTime ldtZoned = start.atZone(ZoneId.systemDefault());
+        //ZonedDateTime ldtZoned = start.atZone(ZoneId.of("America/Chicago"));
         LocalDateTime startDateNTime = ldtZoned.toLocalDateTime();
        // String str = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(changedDateTime);
 
@@ -175,7 +175,8 @@ public class Appointment {
 
 
             LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
-            ZonedDateTime endZoned = end.atZone(ZoneId.of("America/Chicago"));
+            ZonedDateTime endZoned = end.atZone(ZoneId.systemDefault());
+            //ZonedDateTime endZoned = end.atZone(ZoneId.of("America/Chicago"));
             LocalDateTime endDateNTime = endZoned.toLocalDateTime();
 
             // ZonedDateTime ldtZoned1 = end.atZone(ZoneId.systemDefault());

@@ -194,9 +194,7 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
         //converting start time and end time to eastern time
         ZoneId Eastern = ZoneId.of("America/New_York");
         ZonedDateTime localStart = startDateTime.atZone(ZoneId.systemDefault());
-        System.out.println(localStart.toLocalTime().toString());
         ZonedDateTime localEnd = endDateTime.atZone(ZoneId.systemDefault());
-        System.out.println(localEnd.toLocalTime().toString());
         ZonedDateTime startEastern = localStart.withZoneSameInstant(ZoneId.of("America/New_York"));
         ZonedDateTime endEastern = localEnd.withZoneSameInstant(ZoneId.of("America/New_York"));
 //        ZonedDateTime startDT = startDateTime.atZone(Eastern);
@@ -205,29 +203,72 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
         LocalDateTime endDT = endEastern.toLocalDateTime();
         LocalTime startEastTime = startDT.toLocalTime();
         LocalTime endEastTime = endDT.toLocalTime();
-        System.out.println(startEastTime.toString());
-        System.out.println(endEastTime.toString());
+
+        //to check if start time is after end time
+
+        if(startDateTime.isAfter(endDateTime) || startDateTime.isEqual(endDateTime)){
+            Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
+            noSelection.setTitle("Appointment time");
+            noSelection.setContentText("Start time can not be after or at End time!");
+            noSelection.showAndWait();
+            return -1;
+        }
+
+        //to check if date is today or after that
+        if(LocalDate.now().compareTo(date)>0){
+            Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
+            noSelection.setTitle("Appointment time");
+            noSelection.setContentText("Please choose a valid date!");
+            noSelection.showAndWait();
+            return -1;
+        }
+
         //check if start time is between 8 am and 10 pm EST
         LocalTime lowerLimit = LocalTime.parse("08:00:00");
         LocalTime upperLimit = LocalTime.parse("22:00:00");
 
+        if(LocalDate.now().compareTo(date)>0){
+            Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
+            noSelection.setTitle("Appointment time");
+            noSelection.setContentText("Please choose a valid date!");
+            noSelection.showAndWait();
+            return -1;
+        }
+
         if (startEastTime.compareTo(lowerLimit) < 0) {
-            System.out.println("too early!");
+            Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
+            noSelection.setTitle("Appointment time");
+            noSelection.setContentText("Appointment times should be between 8.00 am and 10.00pm EST!");
+            noSelection.showAndWait();
+            return -1;
         } else if (startEastTime.compareTo(upperLimit) > 0) {
-            System.out.println("late!");
+            Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
+            noSelection.setTitle("Appointment time");
+            noSelection.setContentText("Appointment times should be between 8.00 am and 10.00pm EST!");
+            noSelection.showAndWait();
+            return -1;
         }
 
 
         if (endEastTime.compareTo(lowerLimit) < 0) {
-            System.out.println("too early!");
+            Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
+            noSelection.setTitle("Appointment time");
+            noSelection.setContentText("Appointment times should be between 8.00 am and 10.00pm EST!");
+            noSelection.showAndWait();
+            return -1;
+
         } else if (endEastTime.compareTo(upperLimit) > 0) {
-            System.out.println("late!");
+            Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
+            noSelection.setTitle("Appointment time");
+            noSelection.setContentText("Appointment times should be between 8.00 am and 10.00pm EST!");
+            noSelection.showAndWait();
+            return -1;
         }
-        //
 
         LocalDateTime createDate = LocalDateTime.now();
         Timestamp lastUpdate = Timestamp.valueOf(createDate);
         String createdBy = name;
+
 
         //to check if appointments collide
 

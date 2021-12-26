@@ -11,7 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
-import model.Customer;
 import model.DataStorage;
 
 import java.io.IOException;
@@ -23,7 +22,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 import utilities.Crud;
 
-public class AppointmentScreen extends Crud implements Initializable {
+public  class AppointmentScreen extends Crud implements Initializable, LambdaInterfaceOne, LambdaInterfaceTwo{
     public TableView aptTable;
     public TableColumn aptIdCol;
     public TableColumn titleCol;
@@ -58,7 +57,7 @@ public class AppointmentScreen extends Crud implements Initializable {
             rs = Select("select appointments.Appointment_ID,  appointments.Title, appointments.Description ,appointments.Location,contacts.contact_Name,\n" +
                     "appointments.Type,appointments.Start,appointments.End,appointments.Customer_ID,appointments.User_ID\n" +
                     "from appointments \n" +
-                    "join contacts\n" +" on appointments.Contact_ID = contacts.Contact_ID\n order by appointments.Appointment_ID ");
+                    "join contacts\n" + " on appointments.Contact_ID = contacts.Contact_ID\n order by appointments.Appointment_ID ");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -91,23 +90,24 @@ public class AppointmentScreen extends Crud implements Initializable {
 
         aptTable.setItems(DataStorage.getAllAppointments());
 
-        checkForAppointment();
+        check.checkForAppointment();
 
     }
 
-    public void checkForAppointment(){
-        for(Appointment apt : DataStorage.getAllAppointments()){
+   // public void checkForAppointment(){
+        LambdaInterfaceOne check = () -> {
+        for (Appointment apt : DataStorage.getAllAppointments()) {
             LocalDateTime startDateNTime = apt.getStartDateNTime();
 
-           // ZonedDateTime zonedDateTime = startDateTime.atZone(ZoneId.systemDefault());
+            // ZonedDateTime zonedDateTime = startDateTime.atZone(ZoneId.systemDefault());
             //ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.now(),ZoneId.of("America/Chicago"));
-            ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.now(),ZoneId.systemDefault());
+            ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.now(), ZoneId.systemDefault());
             LocalDateTime now = zonedDateTime.toLocalDateTime();
             //LocalDateTime now = LocalDateTime.now();
 
             //System.out.println(now.toString());
 
-            if(now.toLocalDate().toString().equals(startDateNTime.toLocalDate().toString()) && startDateNTime.toLocalTime().isAfter(now.toLocalTime()) ) {
+            if (now.toLocalDate().toString().equals(startDateNTime.toLocalDate().toString()) && startDateNTime.toLocalTime().isAfter(now.toLocalTime())) {
                 //System.out.println(startDateNTime.toLocalTime().until(now.toLocalTime(), ChronoUnit.MINUTES));
                 if (startDateNTime.toLocalTime().until(now.toLocalTime(), ChronoUnit.MINUTES) <= 15) {
 
@@ -119,7 +119,7 @@ public class AppointmentScreen extends Crud implements Initializable {
                 }
             }
         }
-    }
+    };
 
 
 
@@ -242,12 +242,22 @@ public class AppointmentScreen extends Crud implements Initializable {
         aptTable.setItems(monthlyApts);
     }
 
-    public void OnViewAll(ActionEvent actionEvent) {
+
+    LambdaInterfaceTwo view = (ActionEvent actionEvent) -> {
+
         aptTable.setItems(DataStorage.getAllAppointments());
 
+    };
+
+    public void OnViewAll(ActionEvent actionEvent) {
+        view.viewAll(actionEvent);
     }
 
+
+
+
     public void OnViewCustomers(ActionEvent actionEvent) {
+
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerScreen.fxml"));
             Stage stage = new Stage();
@@ -292,5 +302,18 @@ public class AppointmentScreen extends Crud implements Initializable {
         primaryStage.setTitle("Welcome");
         primaryStage.setScene(new Scene(root, 900, 600));
         primaryStage.show();
+    }
+
+
+
+
+    @Override
+    public void viewAll(ActionEvent actionEvent) {
+
+    }
+
+    @Override
+    public void checkForAppointment() {
+
     }
 }

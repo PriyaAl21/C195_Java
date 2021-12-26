@@ -3,6 +3,9 @@ package model;
 ;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import java.util.Comparator;
+
 /** This class creates an DataStorage object which stores all customers and appointments.
  It also contains the methods to add,update or delete customers and appointments*/
 public class DataStorage {
@@ -17,7 +20,7 @@ public class DataStorage {
      */
     public static void addCustomer(Customer customer) {
 
-        allCustomers.add(customer);
+       allCustomers.add(customer);
 
     }
 
@@ -44,6 +47,8 @@ public class DataStorage {
             if(c.getCustomerId()==customer.getCustomerId()){
            allCustomers.remove(c);
            allCustomers.add(customer);
+            Comparator<Customer> CustomerComparator = Comparator.comparing(Customer::getCustomerId);
+            allCustomers.sort(CustomerComparator);
            break;
             }
         }
@@ -54,19 +59,36 @@ public class DataStorage {
             if(c.getAptId()==apt.getAptId()){
                 allAppointments.remove(c);
                 allAppointments.add(apt);
-                //allAppointments.sort(c.getAptId());
+                Comparator<Appointment> AptComparator = Comparator.comparing(Appointment::getAptId);
+                allAppointments.sort(AptComparator);
                 break;
             }
         }
     }
 
     public static void deleteCustomer(Customer customer) {
-        for (Customer c : allCustomers) {
-            if (c.getCustomerId() == customer.getCustomerId()) {
-                allCustomers.remove(c);
-                break;
+        int cusId = customer.getCustomerId();
+        boolean next = false;
+            for (Customer c : allCustomers) {
+                if (c.getCustomerId() == customer.getCustomerId()) {
+                    allCustomers.remove(c);
+                    next = true;
+                    break;
+                }
+
+            }
+
+        System.out.println("checking");
+
+            if(next == true){
+            for (Appointment c : allAppointments) {
+                if (c.getCustomerId() == cusId) {
+                    allAppointments.remove(c);
+
+                }
             }
         }
+
     }
 
 
@@ -79,6 +101,8 @@ public class DataStorage {
         }
     }
 
+
+
     public static void deleteAppointment(Appointment apt){
         for (Appointment c : allAppointments) {
             if (c.getAptId() == apt.getAptId()) {
@@ -88,6 +112,25 @@ public class DataStorage {
         }
     }
 
+    public static void clean(){
+        for (Customer c : allCustomers) {
+
+            allCustomers.remove(c);
+
+
+        }
+    }
+//public static void addToList(Customer customer){
+//        if(DataStorage.getAllCustomers().size()!=0) {
+//            for (Customer c : DataStorage.getAllCustomers()) {
+//                if (c.getCustomerId() != customer.getCustomerId())
+//                    DataStorage.getAllCustomers().add(customer);
+//            }
+//        }
+//        else{
+//            DataStorage.getAllCustomers().add(customer);
+//        }
+//}
 
     }
 

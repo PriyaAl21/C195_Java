@@ -39,6 +39,7 @@ public class CustomerScreen extends Crud implements Initializable {
     public Button deleteCustomer;
     public Button close;
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -54,6 +55,7 @@ public class CustomerScreen extends Crud implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+//
 
         try {
                 rs = Select("Select * from customers");
@@ -71,6 +73,7 @@ public class CustomerScreen extends Crud implements Initializable {
 
                 try {
                     if(DataStorage.getAllCustomers().size()<n)
+                    //DataStorage.clean();
                     Customer.populate(rs);
                     else{
                         System.out.println("na");
@@ -138,11 +141,14 @@ public class CustomerScreen extends Crud implements Initializable {
         if ((Customer) customerTable.getSelectionModel().getSelectedItem() != null) {
 
                 Customer customer = (Customer) customerTable.getSelectionModel().getSelectedItem();
-               System.out.println(customer.getCustomerId());
-               InsertUpdateDelete("Delete from customers where Customer_ID= "+ customer.getCustomerId());
+               int cusId = customer.getCustomerId();
+
+               //DataStorage.deleteAppointmentWithCustomer(customer);
                InsertUpdateDelete("Delete from appointments where Customer_ID= "+customer.getCustomerId());
-               DataStorage.deleteAppointmentWithCustomer(customer);
-                DataStorage.deleteCustomer(customer);
+               InsertUpdateDelete("Delete from customers where Customer_ID= "+ customer.getCustomerId());
+            DataStorage.deleteCustomer(customer);
+               // if(DataStorage.checkAppointmentWithCustomer(customer)==true)
+
         }
         else{
             Alert noSelection = new Alert(Alert.AlertType.INFORMATION);

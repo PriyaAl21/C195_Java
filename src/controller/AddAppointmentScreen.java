@@ -130,23 +130,61 @@ public class AddAppointmentScreen extends Crud implements Initializable {
         LocalTime lowerLimit = LocalTime.parse("08:00:00");
         LocalTime upperLimit = LocalTime.parse("22:00:00");
 
+        //to check if start time is after end time
+
+        if(startDateTime.isAfter(endDateTime) || startDateTime.isEqual(endDateTime)){
+            Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
+            noSelection.setTitle("Appointment time");
+            noSelection.setContentText("Start time can not be after or at End time!");
+            noSelection.showAndWait();
+            return -1;
+        }
+
+        //to check if date is today or after that
+        if(LocalDate.now().compareTo(date)>0){
+            Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
+            noSelection.setTitle("Appointment time");
+            noSelection.setContentText("Please choose a valid date!");
+            noSelection.showAndWait();
+            return -1;
+        }
+
         if (startEastTime.compareTo(lowerLimit) < 0) {
-            System.out.println("too early!");
+            Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
+            noSelection.setTitle("Appointment time");
+            noSelection.setContentText("Appointment times should be between 8.00 am and 10.00pm EST!");
+            noSelection.showAndWait();
+            return -1;
         } else if (startEastTime.compareTo(upperLimit) > 0) {
-            System.out.println("late!");
+            Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
+            noSelection.setTitle("Appointment time");
+            noSelection.setContentText("Appointment times should be between 8.00 am and 10.00pm EST!");
+            noSelection.showAndWait();
+            return -1;
         }
 
 
         if (endEastTime.compareTo(lowerLimit) < 0) {
-            System.out.println("too early!");
+            Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
+            noSelection.setTitle("Appointment time");
+            noSelection.setContentText("Appointment times should be between 8.00 am and 10.00pm EST!");
+            noSelection.showAndWait();
+            return -1;
+
         } else if (endEastTime.compareTo(upperLimit) > 0) {
-            System.out.println("late!");
+            Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
+            noSelection.setTitle("Appointment time");
+            noSelection.setContentText("Appointment times should be between 8.00 am and 10.00pm EST!");
+            noSelection.showAndWait();
+            return -1;
         }
         //
 
         LocalDateTime createDate = LocalDateTime.now();
         Timestamp lastUpdate = Timestamp.valueOf(createDate);
         String createdBy = name;
+
+
 
         //to check if appointments collide
 
