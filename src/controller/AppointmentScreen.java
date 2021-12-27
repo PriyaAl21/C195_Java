@@ -127,7 +127,7 @@ public  class AppointmentScreen extends Crud implements Initializable, LambdaInt
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/view/AddAppointmentScreen.fxml"));
             Stage stage = new Stage();
-            stage.setTitle("Customers");
+            stage.setTitle("Appointment");
             stage.setScene(new Scene(root, 900, 600));
             stage.show();
         } catch (Exception e) {
@@ -166,6 +166,12 @@ public  class AppointmentScreen extends Crud implements Initializable, LambdaInt
                 System.out.println(apt.getAptId());
                 InsertUpdateDelete("Delete from appointments where Appointment_ID= "+ apt.getAptId());
                 DataStorage.deleteAppointment(apt);
+
+                Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
+                noSelection.setTitle("Appointment cancelled");
+                noSelection.setContentText("Appointment with id - "+apt.getAptId()+"\n and type- "+"'"+apt.getType()+"'"+" is cancelled!");
+                noSelection.showAndWait();
+
             }
             else{
                 Alert noSelection = new Alert(Alert.AlertType.INFORMATION);

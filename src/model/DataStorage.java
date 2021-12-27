@@ -69,24 +69,34 @@ public class DataStorage {
     public static void deleteCustomer(Customer customer) {
         int cusId = customer.getCustomerId();
         boolean next = false;
-            for (Customer c : allCustomers) {
-                if (c.getCustomerId() == customer.getCustomerId()) {
-                    allCustomers.remove(c);
-                    next = true;
-                    break;
-                }
-
+        int size = allAppointments.size();
+        System.out.println(size);
+        for(int i=0;i<=size;i++) {
+            System.out.println(i);
+            if(i==size){
+                System.out.println(i);
+                next=true;
+               break;
             }
+            if (allAppointments.get(i).getCustomerId() == cusId) {
+                allAppointments.remove(allAppointments.get(i));
+                size--;
+                i--;
+            }
+
+        }
+
 
         System.out.println("checking");
 
             if(next == true){
-            for (Appointment c : allAppointments) {
-                if (c.getCustomerId() == cusId) {
-                    allAppointments.remove(c);
+                for (Customer c : allCustomers) {
+                    if (c.getCustomerId() == customer.getCustomerId()) {
+                        allCustomers.remove(c);
 
+                        break;
+                    }
                 }
-            }
         }
 
     }
