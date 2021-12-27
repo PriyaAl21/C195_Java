@@ -110,6 +110,8 @@ public class AddAppointmentScreen extends Crud implements Initializable {
         LocalDateTime startDateTime = LocalDateTime.of(date, localStartTime);
         LocalDateTime endDateTime = LocalDateTime.of(date, localEndTime);
 
+
+
         //converting start time and end time to eastern time
         ZoneId Eastern = ZoneId.of("America/New_York");
         ZonedDateTime localStart = startDateTime.atZone(ZoneId.systemDefault());
@@ -148,7 +150,7 @@ public class AddAppointmentScreen extends Crud implements Initializable {
             noSelection.showAndWait();
             return -1;
         }
-
+        //check if start time is between 8 am and 10 pm EST
         if (startEastTime.compareTo(lowerLimit) < 0) {
             Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
             noSelection.setTitle("Appointment time");
@@ -215,6 +217,19 @@ public class AddAppointmentScreen extends Crud implements Initializable {
                 }
             }
         }
+
+        //utc date times
+        //converting to UTC for storing in database
+
+
+        ZonedDateTime utcStart = localStart.withZoneSameInstant(ZoneId.of("UTC"));
+        ZonedDateTime utcEnd = localEnd.withZoneSameInstant(ZoneId.of("UTC"));
+
+        LocalDateTime utcStartDateTime = utcStart.toLocalDateTime();
+        LocalDateTime utcEndDateTime = utcEnd.toLocalDateTime();
+
+        //adding to database
+
                 ResultSet rs = Select("Select * from contacts where Contact_Name = " + '"' + contact + '"');
                 while (rs.next()) {
                     int contactId = Integer.parseInt(rs.getString("Contact_ID"));
@@ -222,7 +237,7 @@ public class AddAppointmentScreen extends Crud implements Initializable {
 
                     InsertUpdateDelete("Insert into appointments (Appointment_ID, Title,Description, Location, Type," +
                             " Start,End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) " +
-                            "Values(null, " + '"' + title + '"' + "," + '"' + description + '"' + "," + '"' + location + '"' + "," + '"' + type + '"' + "," + '"' + startDateTime + '"' + "," + '"' + endDateTime + '"' + ","
+                            "Values(null, " + '"' + title + '"' + "," + '"' + description + '"' + "," + '"' + location + '"' + "," + '"' + type + '"' + "," + '"' + utcStartDateTime + '"' + "," + '"' + utcEndDateTime + '"' + ","
                             + '"' + createDate + '"' + "," + '"' + createdBy + '"' + "," + '"' + lastUpdate + '"' + "," + '"' + createdBy + '"' + "," + '"' + customerId + '"' + "," + '"' + userId + '"' + ","
                             + '"' + contactId + '"' + ")");
 

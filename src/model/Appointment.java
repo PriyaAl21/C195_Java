@@ -138,11 +138,17 @@ public class Appointment {
         String type = rs.getString("Type");
       //
         LocalDateTime start =rs.getTimestamp("Start").toLocalDateTime();
-
-        ZonedDateTime ldtZoned = start.atZone(ZoneId.systemDefault());
+        LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
+        //ZonedDateTime ldtZoned = start.atZone(ZoneId.systemDefault());
+        ZonedDateTime utcStart = start.atZone(ZoneId.of("UTC"));
+        ZonedDateTime utcEnd = end.atZone(ZoneId.of("UTC"));
+        ZonedDateTime ldtZoned = utcStart.withZoneSameInstant(ZoneId.of("America/Chicago"));
+        ZonedDateTime endZoned = utcEnd.withZoneSameInstant(ZoneId.of("America/Chicago"));
         //ZonedDateTime ldtZoned = start.atZone(ZoneId.of("America/Chicago"));
         LocalDateTime startDateNTime = ldtZoned.toLocalDateTime();
-       // String str = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(changedDateTime);
+        LocalDateTime endDateNTime = endZoned.toLocalDateTime();
+
+        // String str = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(changedDateTime);
 
      //check if appointments are within 15 min of local time zone
 //        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.now(),ZoneId.of("America/Chicago"));
@@ -174,10 +180,10 @@ public class Appointment {
             // LocalDateTime startDateNTime = rs.getTimestamp("Start").toLocalDateTime();;
 
 
-            LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
-            ZonedDateTime endZoned = end.atZone(ZoneId.systemDefault());
+           // LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
+            //ZonedDateTime endZoned = end.atZone(ZoneId.systemDefault());
             //ZonedDateTime endZoned = end.atZone(ZoneId.of("America/Chicago"));
-            LocalDateTime endDateNTime = endZoned.toLocalDateTime();
+          //  LocalDateTime endDateNTime = endZoned.toLocalDateTime();
 
             // ZonedDateTime ldtZoned1 = end.atZone(ZoneId.systemDefault());
             // LocalDateTime endDateNTime = ldtZoned1.toLocalDateTime();

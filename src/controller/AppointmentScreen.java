@@ -53,11 +53,14 @@ public  class AppointmentScreen extends Crud implements Initializable, LambdaInt
 
 
         ResultSet rs = null;
+
         try {
             rs = Select("select appointments.Appointment_ID,  appointments.Title, appointments.Description ,appointments.Location,contacts.contact_Name,\n" +
                     "appointments.Type,appointments.Start,appointments.End,appointments.Customer_ID,appointments.User_ID\n" +
                     "from appointments \n" +
                     "join contacts\n" + " on appointments.Contact_ID = contacts.Contact_ID\n order by appointments.Appointment_ID ");
+
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -90,12 +93,21 @@ public  class AppointmentScreen extends Crud implements Initializable, LambdaInt
 
         aptTable.setItems(DataStorage.getAllAppointments());
 
-        check.checkForAppointment();
+        try {
+            check.checkForAppointment(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
    // public void checkForAppointment(){
-        LambdaInterfaceOne check = () -> {
+        LambdaInterfaceOne check = (ResultSet rs) -> {
+        boolean foo = true;
+        String id = rs.getString("Appointment_ID");
+        String date = rs.getTimestamp("Start").toLocalDateTime().toLocalDate().toString();
+       System.out.println(date);
+        String aptTime = rs.getTimestamp("Start").toLocalDateTime().toLocalTime().toString();
         for (Appointment apt : DataStorage.getAllAppointments()) {
             LocalDateTime startDateNTime = apt.getStartDateNTime();
 
@@ -110,15 +122,27 @@ public  class AppointmentScreen extends Crud implements Initializable, LambdaInt
             if (now.toLocalDate().toString().equals(startDateNTime.toLocalDate().toString()) && startDateNTime.toLocalTime().isAfter(now.toLocalTime())) {
                 //System.out.println(startDateNTime.toLocalTime().until(now.toLocalTime(), ChronoUnit.MINUTES));
                 if (startDateNTime.toLocalTime().until(now.toLocalTime(), ChronoUnit.MINUTES) <= 15) {
-
+                        foo = false;
                     //System.out.println("You have an appointment within 15 min!");
                     Alert time = new Alert(Alert.AlertType.INFORMATION);
                     time.setTitle("Appointment alert");
-                    time.setContentText("You have an appointment within 15 min!");
+                    time.setContentText("You have an appointment within 15 min!\n"+
+                            "Appointment ID = "+id+"\n" +
+                            "Date "+date+"\n"+
+                    "Time "+aptTime);
                     time.showAndWait();
                 }
             }
+
+
         }
+       if(foo) {
+           Alert time = new Alert(Alert.AlertType.INFORMATION);
+           time.setTitle("Appointment alert");
+           time.setContentText("You do not have any upcoming appointments!");
+           time.showAndWait();
+       }
+
     };
 
 
@@ -319,7 +343,7 @@ public  class AppointmentScreen extends Crud implements Initializable, LambdaInt
     }
 
     @Override
-    public void checkForAppointment() {
+    public void checkForAppointment(ResultSet rs) {
 
     }
 }

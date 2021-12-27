@@ -303,6 +303,14 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
                 }
             }
         }
+        //utc date times
+        //converting to UTC for storing in database
+
+        ZonedDateTime utcStart = localStart.withZoneSameInstant(ZoneId.of("UTC"));
+        ZonedDateTime utcEnd = localEnd.withZoneSameInstant(ZoneId.of("UTC"));
+
+        LocalDateTime utcStartDateTime = utcStart.toLocalDateTime();
+        LocalDateTime utcEndDateTime = utcEnd.toLocalDateTime();
 
         ResultSet rs = Select("Select * from contacts where Contact_Name = " + '"' + contact + '"');
         while (rs.next()) {
@@ -310,7 +318,7 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
 
             InsertUpdateDelete("UPDATE appointments SET Title = " + '"' + title + '"' +
                     " ,Description = " + '"' + description + '"' + " ,Location = " + '"' + location + '"' + " ,Type = " + '"' + type + '"' +
-                    " ,Start = " + '"' + startDateTime + '"' + " ,End = " + '"' + endDateTime + '"' + " ,Customer_ID = " + '"' + customerId + '"' + " ,User_ID = " + '"' + userId + '"' + ",Contact_ID = " + '"' + contactId + '"' +
+                    " ,Start = " + '"' + utcStartDateTime + '"' + " ,End = " + '"' + utcEndDateTime + '"' + " ,Customer_ID = " + '"' + customerId + '"' + " ,User_ID = " + '"' + userId + '"' + ",Contact_ID = " + '"' + contactId + '"' +
                     " WHERE Appointment_ID = " + aptId);
 //            ResultSet rs1 =
 //                    Select("select appointments.Appointment_ID,  appointments.Title, appointments.Description ,appointments.Location,contacts.contact_Name,\n" +
