@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -86,17 +87,7 @@ public class AddCustomerScreen extends Crud implements Initializable {
        // int id=0;
         ObservableList<String>divisionNames = FXCollections.observableArrayList();
         String one = (String) chooseCountry.getSelectionModel().getSelectedItem();
-        //int countryId = Integer.parseInt(one);
-//        ResultSet rs1 = (ResultSet) Select("Select * from countries where Country = "+ '"'+one+'"');
-//        while (rs1.next()) {
-//            id = Integer.parseInt(rs1.getString("Country_ID"));
-//        }
-//
-//
-//       ResultSet rs2 = (ResultSet) Select("Select * from first_level_divisions where Country_ID = "+ id);
-//        while (rs2.next()) {
-//           divisionNames.add(rs2.getString("Division"));
-//        }
+
 
         ResultSet rs = Select("Select * from first_level_divisions join countries \n" +
                 "on countries.Country_ID=first_level_divisions.Country_ID\n" +
@@ -110,39 +101,60 @@ public class AddCustomerScreen extends Crud implements Initializable {
 
     public void OnChooseDivision(ActionEvent actionEvent) throws SQLException {
         String one =  chooseDivision.getSelectionModel().getSelectedItem();
+
         ResultSet rs = (ResultSet) Select("Select * from first_level_divisions where Division = "+ '"'+one+'"');
         while (rs.next()) {
             divisionId = (Integer.parseInt(rs.getString("Division_ID")));
-            System.out.println(divisionId);
+
         }
 
-    }
-//    public void OnCustomerName(ActionEvent actionEvent) {
-//        customerName =  customerNameField.getText();
-//        System.out.println(customerNameField.getText());
-//
-//    }
-//
-//    public void OnStreetName(ActionEvent actionEvent) {
-//        streetName =  streetNameField.getText();
-//
-//    }
-//
-//    public void OnPhoneNum(ActionEvent actionEvent) {
-//        phone =  phoneField.getText();
-//
-//    }
-//
-//    public void OnPostalCode(ActionEvent actionEvent) {
-//        postalCode =  postalCodeField.getText();
-//
-//    }
 
-    public void OnAddCustomer(ActionEvent actionEvent) throws Exception {
+    }
+
+
+    public int OnAddCustomer(ActionEvent actionEvent) throws Exception {
         customerName =  customerNameField.getText();
         streetName =  streetNameField.getText();
         phone =  phoneField.getText();
         postalCode =  postalCodeField.getText();
+
+        if( customerName.equals("")||streetName.equals("")||phone.equals("")||postalCode.equals("")){
+            Alert empty = new Alert(Alert.AlertType.INFORMATION);
+            empty.setTitle("Empty fields");
+            empty.setContentText("Please fill all fields!");
+            empty.showAndWait();
+            return 1;
+        }
+        else{
+            try{
+                Integer.parseInt(phone);
+                Integer.parseInt(postalCode);
+            }
+            catch(NumberFormatException e){
+                Alert empty = new Alert(Alert.AlertType.INFORMATION);
+                empty.setTitle("Empty fields");
+                empty.setContentText("Please enter  numbers for phone and postal code!");
+                empty.showAndWait();
+                return 1;
+            }
+        }
+
+
+        System.out.println(divisionId);
+        if(chooseCountry.getSelectionModel().getSelectedItem() == null) {
+        Alert empty = new Alert(Alert.AlertType.INFORMATION);
+        empty.setTitle("Empty fields");
+        empty.setContentText("Please choose country and division!");
+        empty.showAndWait();
+        return 1;
+        }
+        else if (divisionId==0) {
+            Alert empty = new Alert(Alert.AlertType.INFORMATION);
+            empty.setTitle("Empty fields");
+            empty.setContentText("Please choose division!");
+            empty.showAndWait();
+            return 1;
+        }
 
 
         InsertUpdateDelete("Insert into customers(Customer_Name,Address,Postal_Code,Phone,Create_Date,Created_By,Last_Update,Last_Updated_By,Division_ID)"+
@@ -157,6 +169,8 @@ public class AddCustomerScreen extends Crud implements Initializable {
         //DataStorage.addCustomer(customer);
         Stage stage = (Stage) addCustomerButton.getScene().getWindow();
         stage.close();
+
+        return 1;
 
     }
 

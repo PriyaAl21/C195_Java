@@ -143,11 +143,22 @@ public class CustomerScreen extends Crud implements Initializable {
                 Customer customer = (Customer) customerTable.getSelectionModel().getSelectedItem();
                int cusId = customer.getCustomerId();
 
-               //DataStorage.deleteAppointmentWithCustomer(customer);
+                Alert delete = new Alert(Alert.AlertType.INFORMATION);
+                delete.setTitle("Delete Customer");
+                delete.setContentText("Are you sure you want to delete this customer?");
+                delete.showAndWait();
+
+
+            //DataStorage.deleteAppointmentWithCustomer(customer);
                InsertUpdateDelete("Delete from appointments where Customer_ID= "+customer.getCustomerId());
                InsertUpdateDelete("Delete from customers where Customer_ID= "+ customer.getCustomerId());
-            DataStorage.deleteCustomer(customer);
-               // if(DataStorage.checkAppointmentWithCustomer(customer)==true)
+
+               DataStorage.deleteCustomer(customer);
+                Alert delete1 = new Alert(Alert.AlertType.INFORMATION);
+                delete1.setTitle("Delete Customer");
+                delete1.setContentText("Customer with customer ID : "+cusId+" is deleted!");
+                delete1.showAndWait();
+
 
         }
         else{

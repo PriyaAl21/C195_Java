@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -108,12 +109,35 @@ public class ModifyCustomerScreen extends Crud implements Initializable {
     public void OnChooseDivision(ActionEvent actionEvent) {
     }
 
-    public void OnUpdateCustomer(ActionEvent actionEvent) throws SQLException {
+    public int OnUpdateCustomer(ActionEvent actionEvent) throws SQLException {
         int customerId = customer.getCustomerId();
         String customerName = customerNameField.getText();
         String street = streetNameField.getText();
         String phone = phoneField.getText();
         String postalCode= postalCodeField.getText();
+
+        if( customerName.equals("")||street.equals("")||phone.equals("")||postalCode.equals("")){
+            Alert empty = new Alert(Alert.AlertType.INFORMATION);
+            empty.setTitle("Empty fields");
+            empty.setContentText("Please fill all fields!");
+            empty.showAndWait();
+            return 1;
+        }
+        else{
+            try{
+                Integer.parseInt(phone);
+                Integer.parseInt(postalCode);
+            }
+            catch(NumberFormatException e){
+                Alert empty = new Alert(Alert.AlertType.INFORMATION);
+                empty.setTitle("Empty fields");
+                empty.setContentText("Please enter  numbers for phone and postal code!");
+                empty.showAndWait();
+                return 1;
+            }
+        }
+
+
         LocalDateTime createDate = customer.getCreateDate();
         String createdBy = customer.getCreatedBy();
         String division =  chooseDivision.getSelectionModel().getSelectedItem();
@@ -137,6 +161,8 @@ public class ModifyCustomerScreen extends Crud implements Initializable {
 
         Stage stage = (Stage) modifyCustomerButton.getScene().getWindow();
         stage.close();
+
+        return 1;
 
     }
 
