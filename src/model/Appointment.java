@@ -142,8 +142,9 @@ public class Appointment {
         //ZonedDateTime ldtZoned = start.atZone(ZoneId.systemDefault());
         ZonedDateTime utcStart = start.atZone(ZoneId.of("UTC"));
         ZonedDateTime utcEnd = end.atZone(ZoneId.of("UTC"));
-        ZonedDateTime ldtZoned = utcStart.withZoneSameInstant(ZoneId.of("America/Chicago"));
-        ZonedDateTime endZoned = utcEnd.withZoneSameInstant(ZoneId.of("America/Chicago"));
+        ZonedDateTime ldtZoned = utcStart.withZoneSameInstant(ZoneId.systemDefault());
+        ZonedDateTime endZoned = utcEnd.withZoneSameInstant(ZoneId.systemDefault());
+
         //ZonedDateTime ldtZoned = start.atZone(ZoneId.of("America/Chicago"));
         LocalDateTime startDateNTime = ldtZoned.toLocalDateTime();
         LocalDateTime endDateNTime = endZoned.toLocalDateTime();

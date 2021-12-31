@@ -59,10 +59,10 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
         ObservableList<String> hours = FXCollections.observableArrayList();
 
         for(int i = 5; i<23 && i>=5;i++){
-            //System.out.println(String.valueOf(i));
+
             if(String.valueOf(i).length()==1){
                 hours.add("0"+String.valueOf(i));
-                // System.out.println("0"+String.valueOf(i));
+
             }
             else{
                 hours.add(String.valueOf(i));
@@ -111,14 +111,43 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
         String location = locationField.getText();
         String type = typeField.getText();
         String contact;
+        String cusId = customerIDField.getText();
+        String usId = userIDField.getText();
+
+        //check if fields are empty
+
+        if(title.equals("")||description.equals("")||location.equals("")||type.equals("")||cusId.equals("")||usId.equals("")){
+            Alert empty = new Alert(Alert.AlertType.INFORMATION);
+            empty.setTitle("Empty fields");
+            empty.setContentText("Please fill all fields!");
+            empty.showAndWait();
+            return 1;
+        }
+        else{
+            try{
+                Integer.parseInt(cusId);
+                Integer.parseInt(usId);
+            }
+            catch(NumberFormatException e){
+                Alert empty = new Alert(Alert.AlertType.INFORMATION);
+                empty.setTitle("Empty fields");
+                empty.setContentText("Please enter a number for customer id and user id!");
+                empty.showAndWait();
+                return 1;
+            }
+        }
+
+        int customerId = Integer.parseInt(cusId);
+        int userId = Integer.parseInt(usId);
+
+
         if(chooseContact.getSelectionModel().getSelectedItem()==null){
             contact = chooseContact.getPromptText();
         }
         else{
            contact = chooseContact.getSelectionModel().getSelectedItem();
         }
-        int customerId = Integer.parseInt(customerIDField.getText());
-        int userId = Integer.parseInt(userIDField.getText());
+
 
         LocalDate date;
         if(dateField.getValue()==null){
@@ -183,22 +212,21 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
 
 
         // DateTimeFormatter parser = DateTimeFormatter.ofPattern("hh:mm:00");
-        System.out.println(startMin);
+
         LocalTime localStartTime = LocalTime.parse(startHours + ":" + startMin + ":" + "00");
         LocalTime localEndTime = LocalTime.parse(endHours + ":" + endMin + ":" + "00");
         localStartTime.plusSeconds(00);
         localEndTime.plusSeconds(00);
         LocalDateTime startDateTime = LocalDateTime.of(date, localStartTime);
         LocalDateTime endDateTime = LocalDateTime.of(date, localEndTime);
-        System.out.println(startDateTime);
+
         //converting start time and end time to eastern time
         ZoneId Eastern = ZoneId.of("America/New_York");
         ZonedDateTime localStart = startDateTime.atZone(ZoneId.systemDefault());
         ZonedDateTime localEnd = endDateTime.atZone(ZoneId.systemDefault());
         ZonedDateTime startEastern = localStart.withZoneSameInstant(ZoneId.of("America/New_York"));
         ZonedDateTime endEastern = localEnd.withZoneSameInstant(ZoneId.of("America/New_York"));
-//        ZonedDateTime startDT = startDateTime.atZone(Eastern);
-//        ZonedDateTime endDT = endDateTime.atZone(Eastern);
+
         LocalDateTime startDT = startEastern.toLocalDateTime();
         LocalDateTime endDT = endEastern.toLocalDateTime();
         LocalTime startEastTime = startDT.toLocalTime();
@@ -277,8 +305,7 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
             LocalDateTime ME = endDateTime;
             LocalDateTime JS = apt.getStartDateNTime();
             LocalDateTime JE = apt.getEndDateNTime();
-            System.out.println(apt.getAptId());
-            System.out.println(aptId);
+
             if(apt.getAptId()!= aptId) {
                 if (customerId == apt.getCustomerId()) {
                     if ((MS.isAfter(JS) || MS.isEqual(JS)) && MS.isBefore(JE)) {
@@ -320,22 +347,7 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
                     " ,Description = " + '"' + description + '"' + " ,Location = " + '"' + location + '"' + " ,Type = " + '"' + type + '"' +
                     " ,Start = " + '"' + utcStartDateTime + '"' + " ,End = " + '"' + utcEndDateTime + '"' + " ,Customer_ID = " + '"' + customerId + '"' + " ,User_ID = " + '"' + userId + '"' + ",Contact_ID = " + '"' + contactId + '"' +
                     " WHERE Appointment_ID = " + aptId);
-//            ResultSet rs1 =
-//                    Select("select appointments.Appointment_ID,  appointments.Title, appointments.Description ,appointments.Location,contacts.contact_Name,\n" +
-//                            "appointments.Type,appointments.Start,appointments.End,appointments.Customer_ID,appointments.User_ID\n" +
-//                            "from appointments \n" +
-//                            "join contacts\n" + " on appointments.Contact_ID = contacts.Contact_ID\n order by appointments.Appointment_ID DESC LIMIT 1");
-//            while (rs1.next()) {
-//                for (Appointment apt : DataStorage.getAllAppointments()) {
-//                    int id = Integer.parseInt(rs1.getString("Appointment_ID"));
-//                    if (apt.getAptId() == id) {
-//                        DataStorage.getAllAppointments().remove(apt);
-//                        Appointment.populate(rs1);
-//
-//                    }
-//                }
-//
-//            }
+
 
             Appointment modified = new Appointment(aptId,title,description,location, contact,type,
                     startDateTime,  endDateTime,customerId, userId);
@@ -351,6 +363,5 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
         Stage stage = (Stage) cancel.getScene().getWindow();
         stage.close();
     }
-    //int apptId, String title, String description, String location, String contact, String type,
-    //                       LocalDateTime startDateNTime, LocalDateTime endDateNTime, int customerId, int userId
+
 }

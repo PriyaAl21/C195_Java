@@ -28,9 +28,6 @@ public class AddAppointmentScreen extends Crud implements Initializable {
     public ComboBox<String> chooseContact;
     public TextField ApptIdField;
     public Button addAppointmentButton;
-    //public Button OnCancel;
-    public TextField startDateTimeField;
-    public TextField endDateTimeField;
     public TextField customerIDField;
     public TextField userIDField;
     public DatePicker dateField;
@@ -60,10 +57,10 @@ public class AddAppointmentScreen extends Crud implements Initializable {
         ObservableList<String> hours = FXCollections.observableArrayList();
 
         for(int i = 5; i<23 && i>=5;i++){
-            //System.out.println(String.valueOf(i));
+
             if(String.valueOf(i).length()==1){
                 hours.add("0"+String.valueOf(i));
-               // System.out.println("0"+String.valueOf(i));
+
             }
             else{
                 hours.add(String.valueOf(i));
@@ -93,15 +90,46 @@ public class AddAppointmentScreen extends Crud implements Initializable {
         String location = locationField.getText();
         String type = typeField.getText();
         String contact = chooseContact.getSelectionModel().getSelectedItem();
-        int customerId = Integer.parseInt(customerIDField.getText());
-        int userId = Integer.parseInt(userIDField.getText());
+        String cusId = customerIDField.getText();
+        String usId = userIDField.getText();
+
         LocalDate date = dateField.getValue();
-        System.out.println("testing");
-        //System.out.println(date.toString());
+
         String startHours = chooseStartHours.getSelectionModel().getSelectedItem();
         String startMin = chooseStartMin.getSelectionModel().getSelectedItem();
         String endHours = chooseEndHours.getSelectionModel().getSelectedItem();
         String endMin = chooseEndMin.getSelectionModel().getSelectedItem();
+
+        //check if fields are empty
+
+        if(title.equals("")||description.equals("")||type.equals("")||contact.equals("")||cusId.equals("")||usId.equals("")
+                || date.equals("")|| startHours.equals("")||startMin.equals("")||endHours.equals("")||endMin.equals("")){
+            Alert empty = new Alert(Alert.AlertType.INFORMATION);
+            empty.setTitle("Empty fields");
+            empty.setContentText("Please fill all fields!");
+            empty.showAndWait();
+            return 1;
+        }
+        else{
+            try{
+                Integer.parseInt(cusId);
+                Integer.parseInt(usId);
+            }
+            catch(NumberFormatException e){
+                Alert empty = new Alert(Alert.AlertType.INFORMATION);
+                empty.setTitle("Empty fields");
+                empty.setContentText("Please enter a number for customer id and user id!");
+                empty.showAndWait();
+                return 1;
+            }
+        }
+
+        int customerId = Integer.parseInt(cusId);
+        int userId = Integer.parseInt(usId);
+
+
+
+
         // DateTimeFormatter parser = DateTimeFormatter.ofPattern("hh:mm:00");
         LocalTime localStartTime = LocalTime.parse(startHours + ":" + startMin + ":" + "00");
         LocalTime localEndTime = LocalTime.parse(endHours + ":" + endMin + ":" + "00");
@@ -112,22 +140,21 @@ public class AddAppointmentScreen extends Crud implements Initializable {
 
 
 
+
         //converting start time and end time to eastern time
         ZoneId Eastern = ZoneId.of("America/New_York");
         ZonedDateTime localStart = startDateTime.atZone(ZoneId.systemDefault());
-        System.out.println(localStart.toLocalTime().toString());
+
         ZonedDateTime localEnd = endDateTime.atZone(ZoneId.systemDefault());
-        System.out.println(localEnd.toLocalTime().toString());
+
         ZonedDateTime startEastern = localStart.withZoneSameInstant(ZoneId.of("America/New_York"));
         ZonedDateTime endEastern = localEnd.withZoneSameInstant(ZoneId.of("America/New_York"));
-//        ZonedDateTime startDT = startDateTime.atZone(Eastern);
-//        ZonedDateTime endDT = endDateTime.atZone(Eastern);
+
         LocalDateTime startDT = startEastern.toLocalDateTime();
         LocalDateTime endDT = endEastern.toLocalDateTime();
         LocalTime startEastTime = startDT.toLocalTime();
         LocalTime endEastTime = endDT.toLocalTime();
-        System.out.println(startEastTime.toString());
-        System.out.println(endEastTime.toString());
+
         //check if start time is between 8 am and 10 pm EST
         LocalTime lowerLimit = LocalTime.parse("08:00:00");
         LocalTime upperLimit = LocalTime.parse("22:00:00");
@@ -218,42 +245,52 @@ public class AddAppointmentScreen extends Crud implements Initializable {
             }
         }
 
-        //utc date times
-        //converting to UTC for storing in database
 
 
-        ZonedDateTime utcStart = localStart.withZoneSameInstant(ZoneId.of("UTC"));
-        ZonedDateTime utcEnd = localEnd.withZoneSameInstant(ZoneId.of("UTC"));
-
-        LocalDateTime utcStartDateTime = utcStart.toLocalDateTime();
-        LocalDateTime utcEndDateTime = utcEnd.toLocalDateTime();
-
-        //adding to database
-
-                ResultSet rs = Select("Select * from contacts where Contact_Name = " + '"' + contact + '"');
-                while (rs.next()) {
-                    int contactId = Integer.parseInt(rs.getString("Contact_ID"));
 
 
-                    InsertUpdateDelete("Insert into appointments (Appointment_ID, Title,Description, Location, Type," +
-                            " Start,End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) " +
-                            "Values(null, " + '"' + title + '"' + "," + '"' + description + '"' + "," + '"' + location + '"' + "," + '"' + type + '"' + "," + '"' + utcStartDateTime + '"' + "," + '"' + utcEndDateTime + '"' + ","
-                            + '"' + createDate + '"' + "," + '"' + createdBy + '"' + "," + '"' + lastUpdate + '"' + "," + '"' + createdBy + '"' + "," + '"' + customerId + '"' + "," + '"' + userId + '"' + ","
-                            + '"' + contactId + '"' + ")");
-
-                    ResultSet rs1 =
-                            Select("select appointments.Appointment_ID,  appointments.Title, appointments.Description ,appointments.Location,contacts.contact_Name,\n" +
-                                    "appointments.Type,appointments.Start,appointments.End,appointments.Customer_ID,appointments.User_ID\n" +
-                                    "from appointments \n" +
-                                    "join contacts\n" + " on appointments.Contact_ID = contacts.Contact_ID\n order by appointments.Appointment_ID DESC LIMIT 1");
-                    while (rs1.next()) {
-                        Appointment.populate(rs1);
-                    }
-                    Stage stage = (Stage) cancel.getScene().getWindow();
-                    stage.close();
 
 
-        }
+
+
+            //utc date times
+            //converting to UTC for storing in database
+            System.out.println(localStart.toString());
+
+            ZonedDateTime utcStart = localStart.withZoneSameInstant(ZoneId.of("UTC"));
+            ZonedDateTime utcEnd = localEnd.withZoneSameInstant(ZoneId.of("UTC"));
+
+            LocalDateTime utcStartDateTime = utcStart.toLocalDateTime();
+            LocalDateTime utcEndDateTime = utcEnd.toLocalDateTime();
+
+            System.out.println(utcStartDateTime.toString());
+            //adding to database
+
+            ResultSet rs = Select("Select * from contacts where Contact_Name = " + '"' + contact + '"');
+            while (rs.next()) {
+                int contactId = Integer.parseInt(rs.getString("Contact_ID"));
+
+
+                InsertUpdateDelete("Insert into appointments (Appointment_ID, Title,Description, Location, Type," +
+                        " Start,End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) " +
+                        "Values(null, " + '"' + title + '"' + "," + '"' + description + '"' + "," + '"' + location + '"' + "," + '"' + type + '"' + "," + '"' + utcStartDateTime + '"' + "," + '"' + utcEndDateTime + '"' + ","
+                        + '"' + createDate + '"' + "," + '"' + createdBy + '"' + "," + '"' + lastUpdate + '"' + "," + '"' + createdBy + '"' + "," + '"' + customerId + '"' + "," + '"' + userId + '"' + ","
+                        + '"' + contactId + '"' + ")");
+
+                ResultSet rs1 =
+                        Select("select appointments.Appointment_ID,  appointments.Title, appointments.Description ,appointments.Location,contacts.contact_Name,\n" +
+                                "appointments.Type,appointments.Start,appointments.End,appointments.Customer_ID,appointments.User_ID\n" +
+                                "from appointments \n" +
+                                "join contacts\n" + " on appointments.Contact_ID = contacts.Contact_ID\n order by appointments.Appointment_ID DESC LIMIT 1");
+                while (rs1.next()) {
+                    Appointment.populate(rs1);
+                }
+                Stage stage = (Stage) cancel.getScene().getWindow();
+                stage.close();
+
+
+            }
+
                 return 0;
     }
 
