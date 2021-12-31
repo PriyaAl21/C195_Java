@@ -78,6 +78,14 @@ public  class AppointmentScreen extends Crud implements Initializable, LambdaInt
                 throwables.printStackTrace();
             }
 
+
+
+        }
+
+        try {
+            check.checkForAppointment();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         aptIdCol.setCellValueFactory(new PropertyValueFactory<>("aptId"));
@@ -93,24 +101,22 @@ public  class AppointmentScreen extends Crud implements Initializable, LambdaInt
 
         aptTable.setItems(DataStorage.getAllAppointments());
 
-        try {
-            check.checkForAppointment(rs);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
 
     }
 
    // public void checkForAppointment(){
-        LambdaInterfaceOne check = (ResultSet rs) -> {
+        LambdaInterfaceOne check = () -> {
         boolean foo = true;
-        String id = rs.getString("Appointment_ID");
-        String date = rs.getTimestamp("Start").toLocalDateTime().toLocalDate().toString();
-       System.out.println(date);
-        String aptTime = rs.getTimestamp("Start").toLocalDateTime().toLocalTime().toString();
+//        int id = Integer.parseInt(rs.getString("Appointment_ID"));
+//        String date = rs.getTimestamp("Start").toLocalDateTime().toLocalDate().toString();
+//       System.out.println(date);
+       //String aptTime = rs.getTimestamp("Start").toLocalDateTime().toLocalTime().toString();
         for (Appointment apt : DataStorage.getAllAppointments()) {
             LocalDateTime startDateNTime = apt.getStartDateNTime();
-
+             int id = apt.getAptId();
+             LocalDate date = apt.getStartDateNTime().toLocalDate();
+             LocalTime aptTime = apt.getStartDateNTime().toLocalTime();
             // ZonedDateTime zonedDateTime = startDateTime.atZone(ZoneId.systemDefault());
             //ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.now(),ZoneId.of("America/Chicago"));
             ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.now(), ZoneId.systemDefault());
@@ -127,20 +133,21 @@ public  class AppointmentScreen extends Crud implements Initializable, LambdaInt
                     Alert time = new Alert(Alert.AlertType.INFORMATION);
                     time.setTitle("Appointment alert");
                     time.setContentText("You have an appointment within 15 min!\n"+
-                            "Appointment ID = "+id+"\n" +
-                            "Date "+date+"\n"+
-                    "Time "+aptTime);
+                            "Appointment ID : "+id+"\n" +
+                            "Date : "+date+"\n"+
+                    "Time : "+aptTime);
                     time.showAndWait();
                 }
             }
 
 
         }
-       if(foo) {
+       if(foo==true) {
            Alert time = new Alert(Alert.AlertType.INFORMATION);
            time.setTitle("Appointment alert");
            time.setContentText("You do not have any upcoming appointments!");
            time.showAndWait();
+
        }
 
     };
@@ -343,7 +350,7 @@ public  class AppointmentScreen extends Crud implements Initializable, LambdaInt
     }
 
     @Override
-    public void checkForAppointment(ResultSet rs) {
+    public void checkForAppointment() {
 
     }
 }
