@@ -2,6 +2,11 @@ package model;
 
 import java.time.LocalDateTime;
 
+/**
+ * This class creates a Country object
+ * @author Priya
+ */
+
 public class Country {
     public int countryId;
     public String country;
@@ -9,6 +14,16 @@ public class Country {
     public String createdBy;
     public LocalDateTime lastUpdate;
     public String lastUpdatedBy;
+
+    /**
+     * This method is the constructor for creating an instance of the Country class
+     * @param countryId
+     * @param country
+     * @param createDate
+     * @param createdBy
+     * @param lastUpdate
+     * @param lastUpdatedBy
+     */
 
     public Country(int countryId, String country, LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy) {
         this.countryId = countryId;

@@ -1,14 +1,21 @@
 package model;
 
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import model.DataStorage;
+
+
+/**
+ * This class creates a Customer object
+ * @author Priya
+ */
 public class Customer {
+
+    /**
+     * This method returns customer id
+     * @return customerId
+     */
 
     public int getCustomerId() {
         return customerId;
@@ -17,6 +24,10 @@ public class Customer {
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
+    /**
+     * This method returns customer name
+     * @return customer name
+     */
 
     public String getCustomerName() {
         return customerName;
@@ -26,6 +37,11 @@ public class Customer {
         this.customerName = customerName;
     }
 
+    /**
+     * This method returns customer address
+     * @return address
+     */
+
     public String getAddress() {
         return address;
     }
@@ -33,6 +49,11 @@ public class Customer {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    /**
+     * This method returns postal code
+     * @return postal code
+     */
 
     public String getPostalCode() {
         return postalCode;
@@ -42,6 +63,10 @@ public class Customer {
         this.postalCode = postalCode;
     }
 
+    /**
+     * This method returns customer phone number
+     * @return phone
+     */
     public String getPhone() {
         return phone;
     }
@@ -50,6 +75,10 @@ public class Customer {
         this.phone = phone;
     }
 
+    /**
+     * This method returns created date
+     * @return createDate
+     */
     public LocalDateTime getCreateDate() {
         return createDate;
     }
@@ -58,6 +87,10 @@ public class Customer {
         this.createDate = createDate;
     }
 
+    /**
+     * This method returns user name who added this customer
+     * @return createdBy
+     */
     public String getCreatedBy() {
         return createdBy;
     }
@@ -81,7 +114,10 @@ public class Customer {
     public void setLastUpdatedBy(String lastUpdatedBy) {
         this.lastUpdatedBy = lastUpdatedBy;
     }
-
+    /**
+     * This method returns divisionId
+     * @return divisionId
+     */
     public int getDivisionId() {
         return divisionId;
     }
@@ -105,6 +141,19 @@ public class Customer {
 
     }
 
+    /**
+     * This method is a constructor for creating an instance of the Customer class
+     * @param customerId
+     * @param customerName
+     * @param address
+     * @param phone
+     * @param postalCode
+     * @param createDate
+     * @param createdBy
+     * @param lastUpdate
+     * @param lastUpdatedBy
+     * @param divisionId
+     */
     public Customer(int customerId,String customerName,String address,String phone,String postalCode,LocalDateTime createDate,String createdBy,Timestamp lastUpdate,
                     String lastUpdatedBy,int divisionId){
         this.customerId = customerId ;
@@ -119,6 +168,13 @@ public class Customer {
         this.divisionId = divisionId;
 
     }
+
+
+    /**
+     * This method adds customers to Datastorage with data obtained from the database
+     * @param rs
+     * @throws SQLException
+     */
 
     public static void populate(ResultSet rs) throws SQLException {
 
@@ -137,12 +193,6 @@ public class Customer {
                     lastUpdatedBy, divisionId);
 
                 DataStorage.getAllCustomers().add(one);
-
-
-
-            //System.out.println(one.getCustomerId());
-
-
 
     }
 

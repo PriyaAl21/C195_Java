@@ -1,14 +1,14 @@
 package model;
-
-//import com.mysql.cj.protocol.Resultset;
-import javafx.scene.control.Alert;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
+
+/**
+ * This class creates an Appointment object/instance
+ * @author Priya
+ */
+
 
 public class Appointment {
     public int aptId;
@@ -21,6 +21,20 @@ public class Appointment {
     public LocalDateTime endDateNTime;
     public int customerId;
     public int userId;
+
+    /**
+     * This method is a constructor for creating an instance of the Appointment class
+     * @param aptId
+     * @param title
+     * @param description
+     * @param location
+     * @param contact
+     * @param type
+     * @param startDateNTime
+     * @param endDateNTime
+     * @param customerId
+     * @param userId
+     */
 
     public Appointment(int aptId, String title, String description, String location, String contact, String type,
                        LocalDateTime startDateNTime, LocalDateTime endDateNTime, int customerId, int userId) {
@@ -47,6 +61,12 @@ public class Appointment {
 
     }
 
+
+    /**
+     * This method returns Appointment id of an appointment
+     * @return aptId
+     */
+
     public int getAptId() {
         return aptId;
     }
@@ -54,6 +74,11 @@ public class Appointment {
     public void setAptId(int aptId) {
         this.aptId = aptId;
     }
+
+    /**
+     * This method returns title of an appointment
+     * @return title
+     */
 
     public String getTitle() {
         return title;
@@ -63,6 +88,11 @@ public class Appointment {
         this.title = title;
     }
 
+    /**
+     * This method returns description of an appointment
+     * @return description
+     */
+
     public String getDescription() {
         return description;
     }
@@ -70,6 +100,11 @@ public class Appointment {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    /**
+     * This method returns location of an appointment
+     * @return location
+     */
 
     public String getLocation() {
         return location;
@@ -79,6 +114,11 @@ public class Appointment {
         this.location = location;
     }
 
+    /**
+     * This method returns contact name of an appointment
+     * @return contact
+     */
+
     public String getContact() {
         return contact;
     }
@@ -86,6 +126,11 @@ public class Appointment {
     public void setContact(String contact) {
         this.contact = contact;
     }
+
+    /**
+     * This method returns type of an appointment
+     * @return type
+     */
 
     public String getType() {
         return type;
@@ -95,6 +140,11 @@ public class Appointment {
         this.type = type;
     }
 
+    /**
+     * This method returns start date and time of an appointment
+     * @return startDateNTime
+     */
+
     public LocalDateTime getStartDateNTime() {
         return startDateNTime;
     }
@@ -103,6 +153,10 @@ public class Appointment {
         this.startDateNTime = startDateNTime;
     }
 
+    /**
+     * This method returns end date and time of an appointment
+     * @return endDateNTime
+     */
     public LocalDateTime getEndDateNTime() {
         return endDateNTime;
     }
@@ -111,6 +165,11 @@ public class Appointment {
         this.endDateNTime = endDateNTime;
     }
 
+    /**
+     * This method returns customer id of an appointment
+     * @return customerId
+     */
+
     public int getCustomerId() {
         return customerId;
     }
@@ -118,6 +177,11 @@ public class Appointment {
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
+
+    /**
+     * This method returns user id of an appointment
+     * @return userId
+     */
 
     public int getUserId() {
         return userId;
@@ -128,6 +192,11 @@ public class Appointment {
     }
 
 
+    /**
+     * This method adds appoinments to Datastorage with data obtained from the database
+     * @param rs
+     * @throws SQLException
+     */
     public static void populate(ResultSet rs)throws SQLException {
 
         int aptId = Integer.parseInt(rs.getString("Appointment_ID"));
@@ -136,7 +205,7 @@ public class Appointment {
         String location = rs.getString("Location");
         String contact = rs.getString("Contact_Name");
         String type = rs.getString("Type");
-      //
+
         LocalDateTime start =rs.getTimestamp("Start").toLocalDateTime();
         LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
         //ZonedDateTime ldtZoned = start.atZone(ZoneId.systemDefault());
@@ -149,46 +218,7 @@ public class Appointment {
         LocalDateTime startDateNTime = ldtZoned.toLocalDateTime();
         LocalDateTime endDateNTime = endZoned.toLocalDateTime();
 
-        // String str = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(changedDateTime);
 
-     //check if appointments are within 15 min of local time zone
-//        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.now(),ZoneId.of("America/Chicago"));
-//        LocalDateTime now = zonedDateTime.toLocalDateTime();
-//        //LocalDateTime now = LocalDateTime.now();
-//
-//        //System.out.println(now.toString());
-//        System.out.println(startDateNTime.toLocalDate());
-//        System.out.println(now.toLocalDate());
-//        if(now.toLocalDate().toString().equals(startDateNTime.toLocalDate().toString()) && startDateNTime.toLocalTime().isAfter(now.toLocalTime()) ) {
-//            System.out.println(startDateNTime.toLocalTime().until(now.toLocalTime(), ChronoUnit.MINUTES));
-//            if (startDateNTime.toLocalTime().until(now.toLocalTime(), ChronoUnit.MINUTES) <= 15) {
-//
-//                System.out.println("You have an appointment within 15 min!");
-//                Alert time = new Alert(Alert.AlertType.INFORMATION);
-//                time.setTitle("Appointment alert");
-//                time.setContentText("You have an appointment within 15 min!");
-//                time.showAndWait();
-//            }
-//        }
-            // System.out.println(startDT);
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//        LocalDateTime localDateTime= LocalDateTime.parse(start.toString(), formatter);
-//        ZonedDateTime zonedDateTime = localDateTime
-//                .atZone(ZoneId.of("UTC", ZoneId.SHORT_IDS))
-//                .withZoneSameInstant(ZoneId.of("EST", ZoneId.SHORT_IDS));
-//        System.out.println(zonedDateTime);
-
-            // LocalDateTime startDateNTime = rs.getTimestamp("Start").toLocalDateTime();;
-
-
-           // LocalDateTime end = rs.getTimestamp("End").toLocalDateTime();
-            //ZonedDateTime endZoned = end.atZone(ZoneId.systemDefault());
-            //ZonedDateTime endZoned = end.atZone(ZoneId.of("America/Chicago"));
-          //  LocalDateTime endDateNTime = endZoned.toLocalDateTime();
-
-            // ZonedDateTime ldtZoned1 = end.atZone(ZoneId.systemDefault());
-            // LocalDateTime endDateNTime = ldtZoned1.toLocalDateTime();
-            //
             int customerId = (rs.getInt("Customer_ID"));
             int userId = (rs.getInt("User_ID"));
 

@@ -6,15 +6,18 @@ import javafx.collections.ObservableList;
 
 import java.util.Comparator;
 
-/** This class creates an DataStorage object which stores all customers and appointments.
- It also contains the methods to add,update or delete customers and appointments*/
+/**
+ * This class creates an DataStorage object which stores all customers and appointments
+ * It also contains the methods to add,update or delete customers and appointments
+ * @author Priya
+ */
 public class DataStorage {
 
     private static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
     private static ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
 
     /**
-     * This method adds a part to the list of all parts
+     * This method adds a customer to the list of customers
      *
      * @param customer
      */
@@ -25,7 +28,7 @@ public class DataStorage {
     }
 
     /**
-     * This method adds a part to the list of all parts.
+     * This method adds an appointment to the list of appointments.
      *
      * @param appointment
      */
@@ -33,14 +36,28 @@ public class DataStorage {
         allAppointments.add(appointment);
     }
 
-    /**This method retrieves all parts from a list of all parts*/
+    /**
+     * This method retrieves all customers from a list of customers
+     * @return allCustomers
+     * */
     public static ObservableList<Customer> getAllCustomers() {
         return allCustomers;
     }
-    /**This method retrieves all products from a list of all products*/
+
+    /**
+     * This method retrieves all appointments from a list of appointments
+     * @return allAppointments
+     * */
     public static ObservableList<Appointment> getAllAppointments() {
         return allAppointments;
     }
+
+
+    /**
+     * This method modifies an existing customer by deleting the old one and creating a new one with same id
+     * it also sorts the all customers list
+     * @param customer
+     */
 
     public static void modifyCustomer(Customer customer) {
         for(Customer c: allCustomers){
@@ -54,6 +71,11 @@ public class DataStorage {
         }
     }
 
+    /**
+     * This method modifies an existing appointment by deleting the old one and creating a new one with same id
+     * it also sorts the all customers list
+     * @param apt
+     */
     public static void modifyAppointment(Appointment apt) {
         for(Appointment c: allAppointments){
             if(c.getAptId()==apt.getAptId()){
@@ -65,6 +87,11 @@ public class DataStorage {
             }
         }
     }
+
+    /**
+     * This method deletes a customer and their corresponding appointments
+     * @param customer
+     */
 
     public static void deleteCustomer(Customer customer) {
         int cusId = customer.getCustomerId();
@@ -86,10 +113,7 @@ public class DataStorage {
 
         }
 
-
-        System.out.println("checking");
-
-            if(next == true){
+        if(next == true){
                 for (Customer c : allCustomers) {
                     if (c.getCustomerId() == customer.getCustomerId()) {
                         allCustomers.remove(c);
@@ -111,7 +135,10 @@ public class DataStorage {
         }
     }
 
-
+    /**
+     * This method deletes an appointment by its id
+     * @param apt
+     */
 
     public static void deleteAppointment(Appointment apt){
         for (Appointment c : allAppointments) {
@@ -130,17 +157,7 @@ public class DataStorage {
 
         }
     }
-//public static void addToList(Customer customer){
-//        if(DataStorage.getAllCustomers().size()!=0) {
-//            for (Customer c : DataStorage.getAllCustomers()) {
-//                if (c.getCustomerId() != customer.getCustomerId())
-//                    DataStorage.getAllCustomers().add(customer);
-//            }
-//        }
-//        else{
-//            DataStorage.getAllCustomers().add(customer);
-//        }
-//}
+
 
     }
 

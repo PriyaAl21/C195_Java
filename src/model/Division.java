@@ -3,6 +3,11 @@ package model;
 
 import java.time.LocalDateTime;
 
+/**
+ * This class creates a Division object
+ * @author Priya
+ */
+
 public class Division {
     public int divisionId;
     public String division;
@@ -10,10 +15,18 @@ public class Division {
     public String createdBy;
     public LocalDateTime lastUpdate;
     public String lastUpdatedBy;
-
-
-
     public int countryId;
+
+    /**
+     * This method is a constructor for creating an instance of the Division class
+     * @param divisionId
+     * @param division
+     * @param createDate
+     * @param createdBy
+     * @param lastUpdate
+     * @param lastUpdatedBy
+     * @param countryId
+     */
 
     public Division(int divisionId, String division, LocalDateTime createDate, String createdBy, LocalDateTime lastUpdate, String lastUpdatedBy,int countryId) {
         this.divisionId = divisionId;
