@@ -1,18 +1,5 @@
 package utilities;
-//import com.mysql.cj.protocol.Resultset;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
-import model.Customer;
-import utilities.JDBC;
+
 
 import java.net.URL;
 import java.sql.Connection;
@@ -22,12 +9,21 @@ import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
+/**
+ * This is an abstract class which contains methods for reading and updating the database
+ */
 public abstract class Crud {
 
     public  Crud() {
 
     }
 
+    /**
+     * This method retrieves information from database and returns it
+     * @param insertStatement
+     * @return rs
+     * @throws SQLException
+     */
     public ResultSet Select(String insertStatement) throws SQLException {
         Connection conn = JDBC.getConnection();
         DBQuery.setStatement(conn);
@@ -37,13 +33,18 @@ public abstract class Crud {
         //ObservableList<ResultSet> allResults = FXCollections.observableArrayList();
         return rs;
     }
+    /**
+     * This method updates tables in database
+     * @param insertStatement
+     * @throws SQLException
+     */
 
     public void InsertUpdateDelete(String insertStatement) throws SQLException {
         Connection conn = JDBC.getConnection();
         DBQuery.setStatement(conn);
         Statement st = DBQuery.getStatement();
         st.execute(insertStatement);
-        System.out.println("added");
+
 
     }
 
