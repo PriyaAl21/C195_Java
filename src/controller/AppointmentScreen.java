@@ -122,21 +122,25 @@ public  class AppointmentScreen extends Crud implements Initializable, LambdaInt
         boolean foo = true;
 
         for (Appointment apt : DataStorage.getAllAppointments()) {
-            LocalDateTime startDateNTime = apt.getStartDateNTime();
+            LocalDateTime startDateTime = apt.getStartDateNTime();
              int id = apt.getAptId();
-             LocalDate date = apt.getStartDateNTime().toLocalDate();
-             LocalTime aptTime = apt.getStartDateNTime().toLocalTime();
-            // ZonedDateTime zonedDateTime = startDateTime.atZone(ZoneId.systemDefault());
+
+             ZonedDateTime zonedDateTime1 = startDateTime.atZone(ZoneId.systemDefault());
+            LocalDateTime startDateNTime = zonedDateTime1.toLocalDateTime();
+            System.out.println(startDateNTime.toString());
+            LocalDate date = apt.getStartDateNTime().toLocalDate();
+            LocalTime aptTime = apt.getStartDateNTime().toLocalTime();
             //ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.now(),ZoneId.of("America/Chicago"));
             ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.now(), ZoneId.systemDefault());
             LocalDateTime now = zonedDateTime.toLocalDateTime();
+            System.out.println(now.toString());
             //LocalDateTime now = LocalDateTime.now();
 
             //System.out.println(now.toString());
 
-            if (now.toLocalDate().toString().equals(startDateNTime.toLocalDate().toString()) && startDateNTime.toLocalTime().isAfter(now.toLocalTime())) {
-                //System.out.println(startDateNTime.toLocalTime().until(now.toLocalTime(), ChronoUnit.MINUTES));
-                if (startDateNTime.toLocalTime().until(now.toLocalTime(), ChronoUnit.MINUTES) <= 15) {
+            if ((now.toLocalDate().toString().equals(startDateNTime.toLocalDate().toString())) && startDateNTime.toLocalTime().isAfter(now.toLocalTime())) {
+                System.out.println(startDateNTime.toLocalTime().until(now.toLocalTime(), ChronoUnit.MINUTES));
+                if (startDateNTime.toLocalTime().until(now.toLocalTime(), ChronoUnit.MINUTES)>=0 && startDateNTime.toLocalTime().until(now.toLocalTime(), ChronoUnit.MINUTES) <= 15) {
                         foo = false;
                     //System.out.println("You have an appointment within 15 min!");
                     Alert time = new Alert(Alert.AlertType.INFORMATION);

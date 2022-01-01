@@ -37,7 +37,7 @@
         <TableView fx:id="cusTable" layoutX="586.0" layoutY="74.0" prefHeight="263.0" prefWidth="234.0" style="-fx-border-color: black; -fx-border-radius: 5;">
             <columns>
                 <TableColumn fx:id="cusAptCol" prefWidth="132.7999267578125" text="Customer Name" />
-                <TableColumn fx:id="countCol" prefWidth="95.2000732421875" text="Number of Appointments" />
+                <TableColumn fx:id="countCol" prefWidth="130.2000732421875" text="Number of Appointments" />
             </columns>
         </TableView>
 
