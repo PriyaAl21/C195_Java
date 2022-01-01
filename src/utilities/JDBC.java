@@ -4,6 +4,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * This class makes connection with the mysql database
+ */
 
 public class JDBC {
  private static final String protocol = "jdbc";
@@ -17,7 +20,10 @@ public class JDBC {
         private static Connection connection = null;  // Connection Interface
         private static PreparedStatement preparedStatement;
 
-         public static void makeConnection() {
+    /**
+     * This method uses username, password and jdbc url to make connection with mysql database
+     */
+    public static void makeConnection() {
 
           try {
               Class.forName(driver); // Locate Driver
@@ -33,10 +39,19 @@ public class JDBC {
                   }
           }
 
+            /**
+             * this method returns the connection
+             * @return connection
+             */
             public static Connection getConnection() {
-                return connection;
-            }
-             public static void closeConnection() {
+                        return connection;
+                    }
+
+            /**
+             * this method closes the connection
+             */
+
+            public static void closeConnection() {
                  try {
                      connection.close();
                      System.out.println("Connection closed!");
@@ -45,7 +60,14 @@ public class JDBC {
                  }
              }
 
-       public static void makePreparedStatement(String sqlStatement, Connection conn) throws SQLException {
+
+    /**
+     * This method creates a prepared statement using the connection and the sql command statement
+      * @param sqlStatement
+     * @param conn
+     * @throws SQLException
+     */
+    public static void makePreparedStatement(String sqlStatement, Connection conn) throws SQLException {
            if (conn != null)
                preparedStatement = conn.prepareStatement(sqlStatement);
            else

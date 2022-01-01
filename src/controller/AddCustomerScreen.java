@@ -14,19 +14,18 @@ import model.Customer;
 import model.DataStorage;
 import model.Division;
 import utilities.Crud;
-//import controller.CustomerAppointmentScreen;
-import utilities.DBQuery;
-import utilities.JDBC;
-
-import javax.xml.crypto.Data;
-import javax.xml.transform.Result;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 import static controller.LogInScreen.name;
-//import static controller.LogInScreen.userName;
+
+
+/**
+ * This class adds new customer to the database and the datastorage lists in the application
+ * @author Priya
+ */
 
 public class AddCustomerScreen extends Crud implements Initializable {
     public TextField customerNameField;
@@ -51,7 +50,11 @@ public class AddCustomerScreen extends Crud implements Initializable {
 
     //public Customer customer;
 
-
+    /**
+     * This method contains code that runs when this page loads
+     * @param url
+     * @param resourceBundle
+     */
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -73,15 +76,15 @@ public class AddCustomerScreen extends Crud implements Initializable {
         createDate= LocalDateTime.now();
         lastUpdate=Timestamp.valueOf(LocalDateTime.now());
 
-//        customer.setCreatedBy(createdBy);
-//        customer.setLastUpdatedBy(lastUpdatedBy);
-//        customer.setCreateDate(createDate);
-//        customer.setLastUpdate(lastUpdate);
 
     }
 
 
-
+    /**
+     * This method creates a list of divisions to choose from depending on country chosen
+     * @param actionEvent
+     * @throws Exception
+     */
 
     public void OnChooseCountry(ActionEvent actionEvent) throws Exception{
        // int id=0;
@@ -99,6 +102,12 @@ public class AddCustomerScreen extends Crud implements Initializable {
 
     }
 
+    /**
+     * This method gets the division id from the database based on the division name chosen in the combo box
+     * @param actionEvent
+     * @throws SQLException
+     */
+
     public void OnChooseDivision(ActionEvent actionEvent) throws SQLException {
         String one =  chooseDivision.getSelectionModel().getSelectedItem();
 
@@ -111,7 +120,12 @@ public class AddCustomerScreen extends Crud implements Initializable {
 
     }
 
-
+    /**
+     * This method creates a new Customer object that is added to the database and the local datastorage lists
+     * @param actionEvent
+     * @return
+     * @throws Exception
+     */
     public int OnAddCustomer(ActionEvent actionEvent) throws Exception {
         customerName =  customerNameField.getText();
         streetName =  streetNameField.getText();
@@ -174,6 +188,10 @@ public class AddCustomerScreen extends Crud implements Initializable {
 
     }
 
+    /**
+     * This method closes this page when the cancel button is clicked
+     * @param actionEvent
+     */
     public void OnCancel(ActionEvent actionEvent) {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();

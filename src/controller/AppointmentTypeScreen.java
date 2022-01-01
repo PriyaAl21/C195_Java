@@ -17,11 +17,11 @@ import utilities.Crud;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.ResourceBundle;
+
+/**
+ * This class renders the report showing appointments based on type
+ * @author Priya
+ */
 
 
 public class AppointmentTypeScreen extends Crud {
@@ -42,6 +42,9 @@ public class AppointmentTypeScreen extends Crud {
     public TableColumn countCol;
     public Button close;
 
+    /**
+     * This class creates an AppointmentType object
+     */
     public static class AppointmentType{
         public String type;
         public int count;
@@ -67,6 +70,11 @@ public class AppointmentTypeScreen extends Crud {
         }
     }
 
+    /**
+     * This method gets the number of appointments based on type and for a particular month
+     * @param month
+     * @throws SQLException
+     */
     public void getCount(int month) throws SQLException {
         String type;
         int count;
@@ -85,6 +93,11 @@ public class AppointmentTypeScreen extends Crud {
     }
 
 
+    /**
+     * This method gets the number of appointments that belong to each type for January
+     * @param actionEvent
+     * @throws SQLException
+     */
     public void onJan(ActionEvent actionEvent) throws SQLException {
         getCount(1);
 
@@ -134,7 +147,10 @@ public class AppointmentTypeScreen extends Crud {
          getCount(12);
     }
 
-
+    /**
+     * This method closes the screen on clicking the close button
+     * @param actionEvent
+     */
     public void OnClose(ActionEvent actionEvent) {
         Stage stage = (Stage) close.getScene().getWindow();
         stage.close();

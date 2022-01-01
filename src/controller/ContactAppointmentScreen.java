@@ -23,6 +23,10 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
+/**
+ * This class displays the appointments under each contact names and the info about it
+ * @author Priya
+ */
 public class ContactAppointmentScreen extends Crud implements Initializable {
     public TableView aptTable;
     public TableColumn aptIdCol;
@@ -35,7 +39,11 @@ public class ContactAppointmentScreen extends Crud implements Initializable {
     public Button close;
     public ComboBox contactCombo;
 
-
+    /**
+     * This method has code that runs when the page is laoding
+     * @param url
+     * @param resourceBundle
+     */
     public void initialize(URL url, ResourceBundle resourceBundle) {
 // contact names in combo box
         ObservableList<String> contactNames = FXCollections.observableArrayList();
@@ -51,11 +59,20 @@ public class ContactAppointmentScreen extends Crud implements Initializable {
         contactCombo.setItems(contactNames);
     }
 
+    /**
+     * This method closes the screen when the close button is clicked
+     * @param actionEvent
+     */
     public void OnClose(ActionEvent actionEvent) {
         Stage stage = (Stage) close.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * This method displays the appointment details of an appointment for the selected contact name
+     * @param actionEvent
+     * @throws SQLException
+     */
     public void OnContactCombo(ActionEvent actionEvent) throws SQLException {
         ObservableList<Appointment> aptTypes = FXCollections.observableArrayList();
         String contact = (String) contactCombo.getSelectionModel().getSelectedItem();

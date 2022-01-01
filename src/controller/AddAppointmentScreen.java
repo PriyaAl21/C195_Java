@@ -20,6 +20,12 @@ import java.util.ResourceBundle;
 import static controller.LogInScreen.name;
 import model.Appointment;
 
+
+/**
+ * This class adds appointment to the database as well local datastorage in the application
+ * @author Priya
+ */
+
 public class AddAppointmentScreen extends Crud implements Initializable {
     public TextField titleField;
     public TextField descriptionField;
@@ -37,7 +43,11 @@ public class AddAppointmentScreen extends Crud implements Initializable {
     public ComboBox<String> chooseEndMin;
     public Button cancel;
 
-
+    /**
+     * This method contains code that runs when the page loads
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 // contact names in combo box
@@ -83,6 +93,12 @@ public class AddAppointmentScreen extends Crud implements Initializable {
             chooseEndMin.setItems(minutes);
     }
 
+    /**
+     * This method adds a new appointment to the database and datastorage lists
+     * @param actionEvent
+     * @return
+     * @throws SQLException
+     */
     public int OnAddAppointment(ActionEvent actionEvent) throws SQLException {
 
         String title = titleField.getText();
@@ -246,14 +262,7 @@ public class AddAppointmentScreen extends Crud implements Initializable {
         }
 
 
-
-
-
-
-
-
-
-            //utc date times
+        //utc date times
             //converting to UTC for storing in database
             System.out.println(localStart.toString());
 
@@ -293,6 +302,11 @@ public class AddAppointmentScreen extends Crud implements Initializable {
 
                 return 0;
     }
+
+    /**
+     * This method closes the page when the cancel button is clicked
+     * @param actionEvent
+     */
 
     public void OnCancel(ActionEvent actionEvent) {
         Stage stage = (Stage) cancel.getScene().getWindow();

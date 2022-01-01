@@ -22,6 +22,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 import utilities.Crud;
 
+/**
+ * This class renders the page that displays the appointment table by getting data from database
+ */
+
 public  class AppointmentScreen extends Crud implements Initializable, LambdaInterfaceOne, LambdaInterfaceTwo{
     public TableView aptTable;
     public TableColumn aptIdCol;
@@ -47,7 +51,11 @@ public  class AppointmentScreen extends Crud implements Initializable, LambdaInt
     public Button contactReport;
     public Button customerReport;
 
-
+    /**
+     * This method contains code that runs when the page loads
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -105,13 +113,14 @@ public  class AppointmentScreen extends Crud implements Initializable, LambdaInt
 
     }
 
-   // public void checkForAppointment(){
+    /**
+     *  This is a Lambda expression which implements the LambdaInterfaceOne
+     *  It checks for any appointment with in 15 min of log in time
+     *  and sends an alert accordingly
+     */
         LambdaInterfaceOne check = () -> {
         boolean foo = true;
-//        int id = Integer.parseInt(rs.getString("Appointment_ID"));
-//        String date = rs.getTimestamp("Start").toLocalDateTime().toLocalDate().toString();
-//       System.out.println(date);
-       //String aptTime = rs.getTimestamp("Start").toLocalDateTime().toLocalTime().toString();
+
         for (Appointment apt : DataStorage.getAllAppointments()) {
             LocalDateTime startDateNTime = apt.getStartDateNTime();
              int id = apt.getAptId();
@@ -153,6 +162,10 @@ public  class AppointmentScreen extends Crud implements Initializable, LambdaInt
     };
 
 
+    /**
+     * This method navigates to the Add appointment page on clicking the add button
+     * @param actionEvent
+     */
 
     public void OnAddAppointment(ActionEvent actionEvent) {
         try {
@@ -166,6 +179,11 @@ public  class AppointmentScreen extends Crud implements Initializable, LambdaInt
         }
 
     }
+
+    /**
+     * This method navigates to Modify appointment page on clicking the edit button
+     * @param actionEvent
+     */
 
     public void OnModifyAppointment(ActionEvent actionEvent) {
         try {
@@ -188,6 +206,12 @@ public  class AppointmentScreen extends Crud implements Initializable, LambdaInt
             e.printStackTrace();
         }
     }
+
+    /**
+     * This method deletes the selected appointment and shows an alert message about it
+     * @param actionEvent
+     * @throws SQLException
+     */
 
     public void OnDeleteAppointment(ActionEvent actionEvent) throws SQLException {
 
@@ -212,6 +236,11 @@ public  class AppointmentScreen extends Crud implements Initializable, LambdaInt
             }
 
     }
+
+    /**
+     * This method displays appointments for the week when the radio button is checked
+     * @param actionEvent
+     */
 
     public void OnViewWeek(ActionEvent actionEvent) {
         ObservableList<Appointment> weeklyApts = FXCollections.observableArrayList();
@@ -263,6 +292,10 @@ public  class AppointmentScreen extends Crud implements Initializable, LambdaInt
 
     }
 
+    /**
+     * This method displays appointments for the month when the radio button is checked
+     * @param actionEvent
+     */
     public void OnViewMonth(ActionEvent actionEvent) {
         ObservableList<Appointment> monthlyApts = FXCollections.observableArrayList();
         LocalDateTime now = LocalDateTime.now();
@@ -279,20 +312,30 @@ public  class AppointmentScreen extends Crud implements Initializable, LambdaInt
         aptTable.setItems(monthlyApts);
     }
 
-
+    /**
+     * This is a Lambda Expression which implements the LambdaInterfacetwo interface
+     * sets the apoointment table with the list of all  appointments
+     */
     LambdaInterfaceTwo view = (ActionEvent actionEvent) -> {
 
         aptTable.setItems(DataStorage.getAllAppointments());
 
     };
 
+    /**
+     * This method displays all appointments when the view all radio button is clicked
+     * @param actionEvent
+     */
+
     public void OnViewAll(ActionEvent actionEvent) {
         view.viewAll(actionEvent);
     }
 
 
-
-
+    /**
+     * This method navigates to the customers page
+     * @param actionEvent
+     */
     public void OnViewCustomers(ActionEvent actionEvent) {
 
         try {
@@ -306,12 +349,19 @@ public  class AppointmentScreen extends Crud implements Initializable, LambdaInt
         }
     }
 
+    /**
+     * This method closes the page when the exit button is clicked
+     * @param actionEvent
+     */
     public void OnExit(ActionEvent actionEvent) {
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
     }
 
-
+    /**
+     * This method navigates to the Appointment type report screen when button is clicked
+     * @param actionEvent
+     */
     public void onTypeReport(ActionEvent actionEvent) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentTypeScreen.fxml"));
@@ -325,6 +375,11 @@ public  class AppointmentScreen extends Crud implements Initializable, LambdaInt
 
     }
 
+    /**
+     * This method navigates to the contact appointments report page when the button is clicked
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onContactReport(ActionEvent actionEvent) throws IOException {
         Stage primaryStage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("/view/ContactAppointments.fxml"));
@@ -333,6 +388,11 @@ public  class AppointmentScreen extends Crud implements Initializable, LambdaInt
         primaryStage.show();
     }
 
+    /**
+     * This method navigates to the customer appointments report page when the button is clicked
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onCustomerReport(ActionEvent actionEvent) throws IOException {
         Stage primaryStage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerAppointments.fxml"));
