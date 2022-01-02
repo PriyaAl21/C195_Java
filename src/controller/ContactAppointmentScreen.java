@@ -40,7 +40,7 @@ public class ContactAppointmentScreen extends Crud implements Initializable {
     public ComboBox contactCombo;
 
     /**
-     * This method has code that runs when the page is laoding
+     * This method has code that runs when the page is loading
      * @param url
      * @param resourceBundle
      */

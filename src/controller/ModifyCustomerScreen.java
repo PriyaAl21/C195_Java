@@ -23,6 +23,9 @@ import java.util.ResourceBundle;
 
 import static controller.LogInScreen.name;
 
+/**
+ * This class contains methods to modify customer information
+ */
 public class ModifyCustomerScreen extends Crud implements Initializable {
     public TextField customerNameId;
     public TextField customerNameField;
@@ -36,12 +39,17 @@ public class ModifyCustomerScreen extends Crud implements Initializable {
     public Customer customer;
     public Button cancelButton;
 
-
+    /**
+     * This method gets the details of the selected customer and populates them in to modify customer form
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
 
     }
+
     public void populateModifyForm(Customer customer) throws SQLException {
         this.customer = customer;
         customerNameId.setPromptText(String.valueOf(customer.getCustomerId()));
@@ -91,7 +99,11 @@ public class ModifyCustomerScreen extends Crud implements Initializable {
         chooseDivision.setItems(divisionNames);
     }
 
-
+    /**
+     * This method creates a list of divisions to choose from based on country selected
+     * @param actionEvent
+     * @throws SQLException
+     */
     public void OnChooseCountry(ActionEvent actionEvent) throws SQLException {
         chooseDivision.setPromptText("State/Province");
         String countryName = chooseCountry.getSelectionModel().getSelectedItem();
@@ -109,6 +121,12 @@ public class ModifyCustomerScreen extends Crud implements Initializable {
     public void OnChooseDivision(ActionEvent actionEvent) {
     }
 
+    /**
+     * This method updates customer information on the new data provided and also does validation checks in the input data
+     * @param actionEvent
+     * @return
+     * @throws SQLException
+     */
     public int OnUpdateCustomer(ActionEvent actionEvent) throws SQLException {
         int customerId = customer.getCustomerId();
         String customerName = customerNameField.getText();
@@ -165,7 +183,10 @@ public class ModifyCustomerScreen extends Crud implements Initializable {
         return 1;
 
     }
-
+    /**
+     * This method closes the screen when cancel button is clicked
+     * @param actionEvent
+     */
     public void OnCancel(ActionEvent actionEvent) {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();

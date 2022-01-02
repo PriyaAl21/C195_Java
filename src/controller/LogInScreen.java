@@ -26,7 +26,10 @@ import java.util.ResourceBundle;
 
 import static main.Main.getStage;
 
-
+/**
+ * This class contains methods to display a log-in page and validates the inputs for username and password
+ * @author Priya
+ */
 public class LogInScreen implements Initializable {
 
     @FXML
@@ -50,6 +53,11 @@ public class LogInScreen implements Initializable {
 
     ResourceBundle rb;
 
+    /**
+     * This method shows the time zone of user when the page is displayed and sets error messages in English and French
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
             this.rb = rb;
@@ -66,33 +74,29 @@ public class LogInScreen implements Initializable {
          pwd.setText(rb.getString("second"));
          logInButton.setText(rb.getString("log"));
 
-
-
-
-
-
     }
 
 
-
+    /**
+     * This method gets the inputs for username and password and validates them for a successful login or sends an alert
+     * with appropriate error messages
+     * @param actionEvent
+     * @throws SQLException
+     * @throws IOException
+     */
 
     public void onLogIn(ActionEvent actionEvent) throws SQLException, IOException {
         String name = userName.getText();
         String pass = password.getText();
         String sqlStatement = "SELECT * FROM users WHERE User_Name =" + '"' + name + '"';
-//        PreparedStatement ps;
-//        JDBC.makePreparedStatement(sqlStatement, JDBC.getConnection());
-//        ps = JDBC.getPreparedStatement();
-//        System.out.println(ps);
+
         Statement st = JDBC.getConnection().createStatement();
         st.execute(sqlStatement);
 
         ResultSet rs = st.getResultSet();
 
 
-
-
-      if (!rs.isBeforeFirst()) {
+        if (!rs.isBeforeFirst()) {
           if(name.equals((""))) {
               alertError(3,"none"); }
            else alertError(1,name);
@@ -163,7 +167,12 @@ public class LogInScreen implements Initializable {
     }
 
 
-
+    /**
+     * This method creates a text file which contains information about each log-in attempts
+     * @param user
+     * @param loginAttempt
+     * @throws IOException
+     */
     public void addToLog(String user, String loginAttempt) throws IOException {
         LocalDateTime now = LocalDateTime.now();
         LocalDate today = now.toLocalDate();

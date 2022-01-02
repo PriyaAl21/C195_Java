@@ -13,7 +13,8 @@ import utilities.Crud;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
+/**This class creates a report showing customer appointments by month
+ * @author Priya
  *
  */
 public class CustomerAppointmentScreen extends Crud {
@@ -34,9 +35,19 @@ public class CustomerAppointmentScreen extends Crud {
     public TableColumn countCol;
     public Button close;
 
+    /**
+     * This class creates a customerAppointment object
+     */
+
     public static class customerAppointment{
         public String customerName;
         public int count;
+
+        /**
+         * This constructor method creates an instance of the customerAppointment class
+         * @param customerName
+         * @param count
+         */
         public customerAppointment(String customerName, int count) {
             this.customerName = customerName;
             this.count = count;
@@ -59,6 +70,11 @@ public class CustomerAppointmentScreen extends Crud {
         }
     }
 
+    /**
+     * This method gets the number of appointments for a customer and customer name in a given month
+     * @param month
+     * @throws SQLException
+     */
     public void getCount(int month) throws SQLException {
         String customerName;
         int count;
@@ -82,6 +98,11 @@ public class CustomerAppointmentScreen extends Crud {
     }
 
 
+    /**
+     * This method gives the number of appointments for a customer in January
+     * @param actionEvent
+     * @throws SQLException
+     */
     public void onJan(ActionEvent actionEvent) throws SQLException {
         getCount(1);
 
@@ -90,7 +111,11 @@ public class CustomerAppointmentScreen extends Crud {
     public void onFeb(ActionEvent actionEvent) throws SQLException {
         getCount(2);
     }
-
+    /**
+     * This method gives the number of appointments for a customer in March
+     * @param actionEvent
+     * @throws SQLException
+     */
     public void onMarch(ActionEvent actionEvent) throws SQLException {
         getCount(3);
     }
@@ -102,7 +127,11 @@ public class CustomerAppointmentScreen extends Crud {
     public void onJune(ActionEvent actionEvent) throws SQLException {
         getCount(6);
     }
-
+    /**
+     * This method gives the number of appointments for a customer in July
+     * @param actionEvent
+     * @throws SQLException
+     */
     public void onJuly(ActionEvent actionEvent) throws SQLException {
         getCount(7);
     }
@@ -110,7 +139,11 @@ public class CustomerAppointmentScreen extends Crud {
     public void onOct(ActionEvent actionEvent) throws SQLException {
         getCount(10);
     }
-
+    /**
+     * This method gives the number of appointments for a customer in September
+     * @param actionEvent
+     * @throws SQLException
+     */
     public void onSep(ActionEvent actionEvent) throws SQLException {
         getCount(9);
     }
@@ -122,7 +155,11 @@ public class CustomerAppointmentScreen extends Crud {
     public void onAug(ActionEvent actionEvent) throws SQLException {
         getCount(8);
     }
-
+    /**
+     * This method gives the number of appointments for a customer for April
+     * @param actionEvent
+     * @throws SQLException
+     */
     public void onApril(ActionEvent actionEvent) throws SQLException {
         getCount(4);
     }
@@ -131,7 +168,10 @@ public class CustomerAppointmentScreen extends Crud {
         getCount(12);
     }
 
-
+    /**
+     * This method closes the screen on clicking the close button
+     * @param actionEvent
+     */
     public void OnClose(ActionEvent actionEvent) {
         Stage stage = (Stage) close.getScene().getWindow();
         stage.close();

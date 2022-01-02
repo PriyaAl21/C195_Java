@@ -20,6 +20,10 @@ import java.util.ResourceBundle;
 
 import static controller.LogInScreen.name;
 
+/**
+ * This class contains methods to modify an appointment in database and datastorage lists
+ * @author Priya
+ */
 public class ModifyAppointmentScreen extends Crud implements Initializable {
     public TextField titleField;
     public TextField descriptionField;
@@ -39,7 +43,11 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
     public ComboBox<String> chooseEndMin;
     public Button cancel;
 
-
+    /**
+     * This method gets the details of the selected appointment and populates them in modify appointment form
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 // contact names in combo box
@@ -50,8 +58,8 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
                 contactNames.add(rs.getString("Contact_Name"));
             }
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
         }
         chooseContact.setItems(contactNames);
 
@@ -103,6 +111,13 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
     public void OnChooseContact(ActionEvent actionEvent) {
     }
 
+    /**
+     * This method gets the modified data and sends that to the database to modify the appointment
+     * and that change is made in the local appointment table as well. It also does all validation checks
+     * @param actionEvent
+     * @return
+     * @throws SQLException
+     */
     public int OnModifyAppointment(ActionEvent actionEvent) throws SQLException {
 
         int aptId = Integer.parseInt(AptIdField.getText());
@@ -355,6 +370,10 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
 
     }
 
+    /**
+     * This method closes the screen when cancel button is clicked
+     * @param actionEvent
+     */
     public void OnCancel(ActionEvent actionEvent) {
         Stage stage = (Stage) cancel.getScene().getWindow();
         stage.close();

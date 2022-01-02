@@ -22,6 +22,11 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
+/**
+ * This class displays the customer table with customer info
+ * @author Priya
+ */
+
 public class CustomerScreen extends Crud implements Initializable {
     public TableView customerTable;
     public TableColumn customerIdCol;
@@ -39,7 +44,11 @@ public class CustomerScreen extends Crud implements Initializable {
     public Button deleteCustomer;
     public Button close;
 
-
+    /**
+     * This method gets details of all customers from database and populates in a table when the program runs
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -101,6 +110,10 @@ public class CustomerScreen extends Crud implements Initializable {
 
     }
 
+    /**
+     * This method navigates to the add customer page on clicking add button
+     * @param actionEvent
+     */
     public void onAddCustomer(ActionEvent actionEvent) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/view/AddCustomerScreen.fxml"));
@@ -112,7 +125,10 @@ public class CustomerScreen extends Crud implements Initializable {
             e.printStackTrace();
         }
     }
-
+    /**
+     * This method navigates to the modify customer page on clicking edit button
+     * @param actionEvent
+     */
     public void OnModifyCustomer(ActionEvent actionEvent) {
         if ((Customer) customerTable.getSelectionModel().getSelectedItem() != null) {
             try {
@@ -136,6 +152,12 @@ public class CustomerScreen extends Crud implements Initializable {
             noSelection.showAndWait();
         }
     }
+
+    /**
+     * This method deletes the selected customer and their appointments
+     * @param actionEvent
+     * @throws SQLException
+     */
 
     public void onDeleteCustomer(ActionEvent actionEvent) throws SQLException {
         if ((Customer) customerTable.getSelectionModel().getSelectedItem() != null) {
@@ -170,8 +192,10 @@ public class CustomerScreen extends Crud implements Initializable {
     }
 
 
-
-
+    /**
+     * This method closes the screen on clicking the close button
+     * @param actionEvent
+     */
 
     public void onClose(ActionEvent actionEvent) {
 
@@ -179,10 +203,5 @@ public class CustomerScreen extends Crud implements Initializable {
     stage.close();
 
         }
-
-
-
-
-
 
 }
