@@ -232,6 +232,16 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
         LocalTime startEastTime = startDT.toLocalTime();
         LocalTime endEastTime = endDT.toLocalTime();
 
+        //to check if start time is after now
+        System.out.println(LocalDateTime.now().isAfter(startDateTime));
+        if(LocalDateTime.now().isAfter(startDateTime)){
+            Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
+            noSelection.setTitle("Appointment time");
+            noSelection.setContentText("Start date & time should be in the future!");
+            noSelection.showAndWait();
+            return -1;
+        }
+
         //to check if start time is after end time
 
         if(startDateTime.isAfter(endDateTime) || startDateTime.isEqual(endDateTime)){
@@ -242,26 +252,12 @@ public class ModifyAppointmentScreen extends Crud implements Initializable {
             return -1;
         }
 
-        //to check if date is today or after that
-        if(LocalDate.now().compareTo(date)>0){
-            Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
-            noSelection.setTitle("Appointment time");
-            noSelection.setContentText("Please choose a valid date!");
-            noSelection.showAndWait();
-            return -1;
-        }
+
 
         //check if start time is between 8 am and 10 pm EST
         LocalTime lowerLimit = LocalTime.parse("08:00:00");
         LocalTime upperLimit = LocalTime.parse("22:00:00");
 
-        if(LocalDate.now().compareTo(date)>0){
-            Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
-            noSelection.setTitle("Appointment time");
-            noSelection.setContentText("Please choose a valid date!");
-            noSelection.showAndWait();
-            return -1;
-        }
 
         if (startEastTime.compareTo(lowerLimit) < 0) {
             Alert noSelection = new Alert(Alert.AlertType.INFORMATION);

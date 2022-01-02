@@ -117,9 +117,12 @@ public class AddAppointmentScreen extends Crud implements Initializable {
         String endMin = chooseEndMin.getSelectionModel().getSelectedItem();
 
         //check if fields are empty
+        System.out.println(date);
+        System.out.println(startHours);
+        System.out.println(startMin);
 
         if(title.equals("")||description.equals("")||type.equals("")||contact.equals("")||cusId.equals("")||usId.equals("")
-                || date.equals("")|| startHours.equals("")||startMin.equals("")||endHours.equals("")||endMin.equals("")){
+                || date==null|| startHours==null||startMin==null||endHours==null||endMin==null){
             Alert empty = new Alert(Alert.AlertType.INFORMATION);
             empty.setTitle("Empty fields");
             empty.setContentText("Please fill all fields!");
@@ -175,6 +178,16 @@ public class AddAppointmentScreen extends Crud implements Initializable {
         LocalTime lowerLimit = LocalTime.parse("08:00:00");
         LocalTime upperLimit = LocalTime.parse("22:00:00");
 
+        //to check if start time is after now
+        System.out.println(LocalDateTime.now().isAfter(startDateTime));
+        if(LocalDateTime.now().isAfter(startDateTime)){
+            Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
+            noSelection.setTitle("Appointment time");
+            noSelection.setContentText("Start date & time should be in the future!");
+            noSelection.showAndWait();
+            return -1;
+        }
+
         //to check if start time is after end time
 
         if(startDateTime.isAfter(endDateTime) || startDateTime.isEqual(endDateTime)){
@@ -197,13 +210,13 @@ public class AddAppointmentScreen extends Crud implements Initializable {
         if (startEastTime.compareTo(lowerLimit) < 0) {
             Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
             noSelection.setTitle("Appointment time");
-            noSelection.setContentText("Appointment times should be between 8.00 am and 10.00pm EST!");
+            noSelection.setContentText("Appointment times should be between 8am and 10pm EST!");
             noSelection.showAndWait();
             return -1;
         } else if (startEastTime.compareTo(upperLimit) > 0) {
             Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
             noSelection.setTitle("Appointment time");
-            noSelection.setContentText("Appointment times should be between 8.00 am and 10.00pm EST!");
+            noSelection.setContentText("Appointment times should be between 8am and 10pm EST!");
             noSelection.showAndWait();
             return -1;
         }
@@ -212,14 +225,14 @@ public class AddAppointmentScreen extends Crud implements Initializable {
         if (endEastTime.compareTo(lowerLimit) < 0) {
             Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
             noSelection.setTitle("Appointment time");
-            noSelection.setContentText("Appointment times should be between 8.00 am and 10.00pm EST!");
+            noSelection.setContentText("Appointment times should be between 8am and 10pm EST!");
             noSelection.showAndWait();
             return -1;
 
         } else if (endEastTime.compareTo(upperLimit) > 0) {
             Alert noSelection = new Alert(Alert.AlertType.INFORMATION);
             noSelection.setTitle("Appointment time");
-            noSelection.setContentText("Appointment times should be between 8.00 am and 10.00pm EST!");
+            noSelection.setContentText("Appointment times should be between 8am and 10pm EST!");
             noSelection.showAndWait();
             return -1;
         }
